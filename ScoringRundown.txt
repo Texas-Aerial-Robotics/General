@@ -1,0 +1,28 @@
+Flight
+
+12000 - Base score
+2000  - per roomba across green line
+-1000 - per roomba across red line
+-100  - per minute of flight time
+
+Build
+
+1500 - Design Quality
+	250  - Component Integration
+	250  - Build Quality
+	1000 - Robustness
+1500 - Innovation
+	300 - Propulsion system
+	300 - Attitude/Heading
+	300 - Navigation
+	300 - Target identification
+	300 - Obstacle Avoidance
+1750 - Safety
+	1000 - Prop guards/isolation
+	250  - Battery stability
+	500  - Crash Worthiness
+
+
+-1000     - no paper
+0 to 1000 - turned in paper
+0 to 500  - tshirt
