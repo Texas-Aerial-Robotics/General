@@ -1,15 +1,22 @@
-\documentclass{article}
-
+\documentclass[12pt]{article}
 \usepackage[margin=1in]{geometry}
 \geometry{letterpaper}
 \usepackage{doc}
 \usepackage{url}
 \usepackage{lastpage}
 \usepackage{graphicx}
+\usepackage{gensymb}
 \usepackage{fancyhdr}
+\usepackage{hyperref}
 
-\title{IARC Research Paper}
-\author{Texas Aerial Robotics \\ \\ Samid Ahmed, Adam Bays, Nicholas Boeker, Jeremie Gallegos, \\ Eric Johnson, Aaron Karns, Cameron Lane, Juliette Licon, \\ Mark Loveland, Jonathan Lu, Umer Salman, Ethan Starr, Jacob Yanez} % A note about authors:  list only those who actually contributed to the writing of this paper.  All the members of the team should not be listed as authors unless they all wrote at least a page of the material for the paper.
+\title{IARC Technical Paper}
+\author{
+	\textbf{Texas Aerial Robotics} \\ 
+	\textit{University of Texas at Austin} \\ \\ 
+%	Austin, TX 78705 \\ 
+	\href{mailto:TexasAerialRobotics@gmail.com}{TexasAerialRobotics@gmail.com} \\ \\ 
+	Samid Ahmed, Adam Bays, Nicholas Boeker, Jeremie Gallegos, \\ Eric Johnson, Aaron Karns, Cameron Lane, Juliette Licon, \\ Mark Loveland, Jonathan Lu, Umer Salman, Ethan Starr, Jacob Yanez \\ \\ Dr. Akela, Marcelino} 
+% A note about authors:  list only those who actually contributed to the writing of this paper.  All the members of the team should not be listed as authors unless they all wrote at least a page of the material for the paper.
 
 \date{May 28, 2017}
 
@@ -23,32 +30,33 @@
 \thispagestyle{empty}
 
 \abstract{
-Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robotics Competition (IARC) in 2017. The goal is to direct Roombas (iRobot Create 2's), known as ground robots, using a quadcopter. We use a camera (put name here) for vision, a Nvidia Jetson for vision processing, and a Pixhawk for controlling the quadcopter. 
+Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robotics Competition (IARC) in 2017. Our goal is to direct Roombas (iRobot Create 2's), known as ground robots, using a quadcopter equipped with a camera (put name here) for vision, a Nvidia Jetson for vision processing, and a Pixhawk for controlling the quadcopter. The mission takes place in a GPS denied environment, so gridlines will be used as reference positions. 
 }
 
-\pagebreak
-\tableofcontents
+% \pagebreak
+% \tableofcontents
 
 \pagebreak
 
 \section{Introduction}
-\label{introduction}
+\subsection{The Mission}
+Mission 7a of IARC consists of developing an aerial vehicle that can interact with moving ground robots. Those ground robots, or Roombas, have randomized movements so the aerial vehicle must make decisions on the fly rather than having preprogrammed instructions. The vehicle must herd the 10 Roombas across one side of the 20 meter by 20 meter grid. Additionally, 4 obstacle Roombas have PVC poles the vehicle must avoid. The way the vehicle must herd the Roombas is by either blocking the forward motion of the Roomba, directing it to rotate 180\degree, or tapping the pressure plate atop the Roomba, directing the Roomba to rotate 45\degree clockwise. 
 
-Description of mission with link to rules. 
+An added difficulty to the mission is that the setting is a (Global Positioning System) GPS denied environment. Additionally, there are no landmark features to allow the vehicle to use Simultaneous Localization and Mapping (SLAM) for orientating itself on the grid. Thus, we determined that we needed to design other methods to determine our positioning. By using a camera to observe the gridlines and an Inertial Measurement Unit (IMU), we are working our way to determining where the vehicle is on the grid. 
 
-\section{Background, Preliminary, and Related Work}
+Mission 7b will add in an additional aerial vehicle to compete against for herding more Roombas. 
 
-Describe history, work, or projects that serve as direct contributors to the subject of your research paper
+\subsection{Yearly milestones}
+This is the first time Texas Aerial Robotics is competing in any event. Our goal for the year was to be competitive at this year's IARC. 
 
 \section{Quadcopter}
-
-Vehicle information 
+We decided to fabricate a quadcopter with aluminum arms with a carbon fiber base. During build, we laser-cut wood for the base to allow for rapid iterating. Using wood also meant that we would be dealing with more magnetic interference and vibration than we would after switching to carbon fiber, allowing us to test with worse conditions. Our quadrotor needed to house all of the sensors for operation with sufficient flight time. 
 
 \subsection{Hardware} 
-
-Probably have a table for what is what. 
+At the end of the aluminum arms sit four (insert here) motors for lift. The four motors provide (insert) grams of lift, a sufficient amount for our (insert) gram quadcopter. The arms are fixed into the base pieces, which do not pass enough vibration to the sensors that we needed any additional vibration damping. 
 
 \subsection{Controls}
+We use a Pixhawk flight controller, situated directly center of the quadcopter, for flying and sensor capabilities. We supplement the Pixhawk's accelerometer, gyroscope, and compass with an optical flow sensor (PX4FLOW) for position tracking and a LIDAR (LIDAR Lite v3) for altitude measurements. These sensors allow the Pixhawk to better maneuver and stabilize the flight of the vehicle. 
 
 \subsection{Vision}
 
@@ -57,25 +65,36 @@ Probably have a table for what is what.
 \section{Safety}
 \subsection{Pre-flight Checklist}
 \begin{enumerate}
-	\item Make sure lidar and pix flow are not covered
-	\item Make sure that escs are plugged in to the right ports. 
-	\item Make sure that the props are on in the correct direction. 
-	\item Make sure that the props are not upside down
-	\item Make sure drone is level before powering on
+	\item Check LIDAR and flow sensor are not covered 
+	\item Check ESCs are plugged into correct ports 
+	\item Check props are on in the correct direction 
+	\item Check props are not upside down
+	\item Check that drone is level before powering on
 	\item Hold safety button
 	\item Make sure ground station has good telemetry
 	\item Verify critical sensors are giving good data
 	\item Make sure everyone is clear of drone 
 \end{enumerate}
+\subsection{Kill Switch}
+Kill Switch 
+
+\subsection{Prop Guards}
+Our prop guards took multiple iterations. We wanted a design that would not interfere with the prop wash, but still be able to avoid the quadcopter from destroying itself in the unfortunate event it collides with something. The first iteration looked nice, but interfered with the prop wash too much and weighted too much, reducing the thrust. 
 
 \section{Simulations}
+Another aspect of our research into solving Mission 7 involved simulating the arena and quadcopter on the computer to allow us to test without fear of damaging the quadcopter. It also allowed us to test with a full field and simulated Roombas as we currently do not have a physical field setup or more than one Roomba. 
+
+To simulate the quadcopter, we use Ardupilot's Software in the Loop (SITL) simulation method to run a Gazebo simulation with ROS. Using the PX4 flight stack, we are able to simulate a quadcopter like ours with a Pixhawk and Optical Flow sensor. 
+
+To simulate the Roombas, we use a SDF model found online which we duplicated to get the 10 objective Roombas and 4 obstacle Roombas. We can simulate the randomized motion by issuing ROS commands to the Roombas. 
 
 \section{Conclusion}
+We still have quite a ways to go before we can consider ourselves competitive. Due to the fact that we started our organization in 2017, we have come a long way and learned a lot, yet we plan to continue work to beat this mission as quick as possible. Hopefully we do well at Georgia Tech! 
 
-Hopefully we do well at Georgia Tech! gl hf! 
+\section{Acknowledgments}
+We are thankful for Dr. Akela at UT Austin. Additionally, we are thankful for UT Austin's Aerospace Department for providing us with a meeting room and sponsorship. 
 
-\section{Acknowledgements}
-
+We also would not have been able to work towards this mission without the sponsorship of General Dynamics. 
 \bibliography{Paper}
 \bibliographystyle{unsrt}
 
