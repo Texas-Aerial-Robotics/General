@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \usepackage{gensymb}
 \usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
 \usepackage{hyperref}
 
 \title{IARC Technical Paper}
@@ -15,8 +17,7 @@
 	\textit{University of Texas at Austin} \\ \\ 
 %	Austin, TX 78705 \\ 
 	\href{mailto:TexasAerialRobotics@gmail.com}{TexasAerialRobotics@gmail.com} \\ \\ 
-	Samid Ahmed, Adam Bays, Nicholas Boeker, Jeremie Gallegos, \\ Eric Johnson, Aaron Karns, Cameron Lane, Juliette Licon, \\ Mark Loveland, Jonathan Lu, Umer Salman, Ethan Starr, Jacob Yanez \\ \\ Dr. Akela, Marcelino} 
-% A note about authors:  list only those who actually contributed to the writing of this paper.  All the members of the team should not be listed as authors unless they all wrote at least a page of the material for the paper.
+	Samid Ahmed, Nicholas Boeker, Eric Johnson, \\ Aaron Karns, Mark Loveland, Umer Salman} 
 
 \date{May 28, 2017}
 
@@ -33,8 +34,8 @@
 Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robotics Competition (IARC) in 2017. Our goal is to direct Roombas (iRobot Create 2's), known as ground robots, using a quadcopter equipped with a camera (put name here) for vision, a Nvidia Jetson for vision processing, and a Pixhawk for controlling the quadcopter. The mission takes place in a GPS denied environment, so gridlines will be used as reference positions. 
 }
 
-% \pagebreak
-% \tableofcontents
+\pagebreak
+\tableofcontents
 
 \pagebreak
 
@@ -49,7 +50,20 @@ Mission 7b will add in an additional aerial vehicle to compete against for herdi
 \subsection{Yearly milestones}
 This is the first time Texas Aerial Robotics is competing in any event. Our goal for the year was to be competitive at this year's IARC. 
 
+\subsection{Faculty Support}
+At the beginning of the creation of Texas Aerial Robotics, the team searched for professors to provide technical guidance for the project. Within the UT Department of Aerospace TAR reached out to Dr. Maruthi Akella. Dr. Akella has been conducting research in areas similar to the core objectives of IARC’s Mission 7. Dr. Akella has been doring research to create agile intelligent quadrotors in environments free of GPS. Dr. Akella expressed interest in Mission 7 as soon the team reached out. From the outset of the relationship Dr. Akella has provided expertise, access to his grad students as well as access to his indoor and outdoor lab. Dr. Akella also introduced us to multiple corporation looking to sponsor student projects. TAR is incredibly thankful to have the support of Dr. Akella. 
+
+\subsection{Team Structure}
+As important as the drone a team develops, is the process in which it is developed. The past year has been Texas Aerial Robotics(TAR) maiden year and the team has put a lot of effort in developing the process to catalyze the engineering of the drone. During the fall semester, the team made just about every mistake in the book with regards to how to run a competition team. The team struggled with communication, vision and drive. This disorganization resulted with TAR ending the first semester with little to no progress. With the failure of the semester came the resignation of our president. Texas Aerial Robotics was at a crossroads. 
+
+The winter break was used as a period of reflection. At the start of the new semester a new president was elected and a formal management style was implemented. Scrum. This is short term, agile style of management that makes short term goals and reflects and resets for the next “scrum”. Along with scrum, the team implemented organizational apps such as slack and trello. Slack allowed the team to keep all the sub-team conversations separate, but unified. This kept members from silencing their line of communication as well as still allowing members to view what the other sub-teams are working on. Automated reminders for meetings were also set up through slack to prevent members from forgetting their duties to the team. Trello was an incredible addition to our organizational platform. Trello is a ubiquitous bulletin board in which we can make and assign tasks throughout the team. This has helped to promote accountability as well as allow the better delegation of jobs. Finally, the last big productivity mechanism we implemented was the formation of a business/logistics subteam. This team has allowed the engineers to focus on engineering by acquiring money and organizing logistics, such as the trip to Atlanta. 
+
+\subsection{Budget}
+The UT Aerospace Department was the first institution to support the team. TAR received a couple thousand dollars to begin our project as well as permission to use the aerospace facilities. After doing cost analysis TAR set the target budget at \$10,000. The team’s big break came after reaching out to Dr. Maruthi Akella. As well as providing the team with technical guidance, Dr. Akella introduced us to executives from corporations looking to sponsor student projects. Of the two corporations TAR reached out to General Dynamics Mission Systems (GDMS) decided us to fully sponsor us at the requested budget. The team is extremely grateful to have received the support of GDMS. Without this relationship, the development and trip to Atlanta would not have been possible. 
+
 \section{Quadcopter}
+After our initial brainstorming period the team decided that the drone would would need to be able to easily interact with roombas, fly at least 10 min and have a large body to accommodate for the many electronics. At the beginning of our design process the team was faced with the prospects of buying, or designing and building a drone in house. After doing research, the design team decided that no prebuilt could fully meet the needs. The team decided to use the propeller guards as a forward blocking surface as well as a safety feature. To get the propeller guards to the required height to block the roobas the team chose to have the body of the drone be the landing gear. Surface area of the drone was elected to be maximized to decrease the precision needed to contact the top of the roombas. The quadcopter would be made with aluminum arms with a carbon fiber base to minimize weight and maximise strength and build quality. During build, we laser-cut wood for the base to allow for rapid iterating. Rapid iteration was instrumental in finding the optimal layout of electronics as well as flush out design flaws. Using wood also meant that we would be dealing with more magnetic interference and vibration than we would after switching to carbon fiber, allowing us to test with worse conditions. The body of the drone was designed from the outset to keep the electronics easily accessible. For this reason a removable base cover was implemented. 
+
 We decided to fabricate a quadcopter with aluminum arms with a carbon fiber base. During build, we laser-cut wood for the base to allow for rapid iterating. Using wood also meant that we would be dealing with more magnetic interference and vibration than we would after switching to carbon fiber, allowing us to test with worse conditions. Our quadrotor needed to house all of the sensors for operation with sufficient flight time. 
 
 \subsection{Hardware} 
@@ -58,9 +72,38 @@ At the end of the aluminum arms sit four (insert here) motors for lift. The four
 \subsection{Controls}
 We use a Pixhawk flight controller, situated directly center of the quadcopter, for flying and sensor capabilities. We supplement the Pixhawk's accelerometer, gyroscope, and compass with an optical flow sensor (PX4FLOW) for position tracking and a LIDAR (LIDAR Lite v3) for altitude measurements. These sensors allow the Pixhawk to better maneuver and stabilize the flight of the vehicle. 
 
+Both the optical flow sensor and the lidar sensor integrate with the Arducopter flight software that is running on the Pixhawk. The optical flow sensor is mounted on the side of the main body of the quadcopter to ensure that sensor receives adequate lighting at all times. 
+
 \subsection{Vision}
 
-\subsection{Business}
+The drone tracks the roombas as well as keeps its global position using data taken from the camera mounted facing downwards. The Jetson Tx1 is what the drone uses to take the data from the camera and run our custom computer vision programs. We use the free OpenCV libraries to assist in our computer vision algorithms. 
+
+In order to track the roombas, we opted to exploit the fact that the tops of the roombas are taped in either a distinct shade of red or green. This is done by applying a simple threshold and localizing the region in which the colored pixels are detected. With height input from the lidar, the computer vision algorithm can easily convert distance in pixels to distance in meters. This allows us to know the distances of the roombas relative to the drone. From here we can combine this data with our grid tracking algorithm and computational model to map the roombas globally.
+
+The algorithm for keeping the drone’s position within the grid relies on line detection. This is achieved by applying many operations to a standard RGB image. First, the image passes through the camera as an RGB picture. The image is then converted to grayscale. Next, the Canny Edge detection [1] filters the grayscale image into a binary image. From there, the binary image is fed through a Hough Transform [2] that essentially takes the binary image and outputs vectors which end up being the grid lines. The algorithm then reads these vectors and sorts them into two bins based off of the direction that they point [3]. Once sorted, the closest vector in each group to the center of the image is found. The distance can be used to calculate distance within each grid square. Each time the center of the drone’s camera passes over a line, the grid square number is also updated.
+
+Below is a flowchart to illustrate our tracking algorithms: \\ \\ 
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+     text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\begin{tikzpicture}[node distance = 1.5cm, auto]
+    % Place nodes
+    \node [block] (camera) {Video camera captures frame};
+    \node [block, below of=camera] (passed) {Frame is passed into Jetson Tx1};
+    \node [block, below of=passed] (find) {Executable program finds locations of red and green blocks};
+    \node [block, below of=find] (calc) {Positioning program calculates drone location};
+    \node [block, below of=calc] (preferred) {Position and roomba locations allow drone to identify preferred target};
+    \node [block, below of=preferred] (passpreferred) {Preferred target is passed to Pixhawk};
+    \node [block, below of=passpreferred] (update) {Frame is updated and algorithm repeats};
+    % Draw edges
+    \path [line] (camera) -- (passed);
+    \path [line] (passed) -- (find);
+    \path [line] (find) -- (calc);
+    \path [line] (calc) -- (preferred);
+    \path [line] (preferred) -- (passpreferred);
+    \path [line] (passpreferred) -- (update);
+    \path [line] (update) -- ++(7cm,0) |- (camera);
+\end{tikzpicture}
 
 \section{Safety}
 \subsection{Pre-flight Checklist}
@@ -75,8 +118,9 @@ We use a Pixhawk flight controller, situated directly center of the quadcopter, 
 	\item Verify critical sensors are giving good data
 	\item Make sure everyone is clear of drone 
 \end{enumerate}
+
 \subsection{Kill Switch}
-Kill Switch 
+Hopefully we will have a Kill Switch 
 
 \subsection{Prop Guards}
 Our prop guards took multiple iterations. We wanted a design that would not interfere with the prop wash, but still be able to avoid the quadcopter from destroying itself in the unfortunate event it collides with something. The first iteration looked nice, but interfered with the prop wash too much and weighted too much, reducing the thrust. 
@@ -96,6 +140,6 @@ We are thankful for Dr. Akela at UT Austin. Additionally, we are thankful for UT
 
 We also would not have been able to work towards this mission without the sponsorship of General Dynamics. 
 \bibliography{Paper}
-\bibliographystyle{unsrt}
+\bibliographystyle{unsrt} 
 
 \end{document}
