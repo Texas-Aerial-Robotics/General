@@ -37,7 +37,7 @@
 \thispagestyle{empty}
 
 \abstract{
-Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robotics Competition (IARC) in 2017. Our goal is to direct Roombas (iRobot Create 2's), known as ground robots, using a quadcopter equipped with a camera (put name here) for vision, a Nvidia Jetson for vision processing, and a Pixhawk for controlling the quadcopter. The mission takes place in a GPS denied environment, so gridlines will be used as reference positions. 
+Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robotics Competition (IARC) in 2017. Our goal is to direct Roombas (iRobot Create 2's), known as ground robots, using a quadcopter equipped with a Logitech C210 camera for vision, a Nvidia Jetson for vision processing, and a Pixhawk for controlling the quadcopter. The mission takes place in a GPS denied environment, so gridlines will be used as reference positions. 
 }
 
 \pagebreak
@@ -47,7 +47,7 @@ Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robo
 
 \section{Introduction}
 \subsection{The Mission}
-Mission 7a of IARC consists of developing an aerial vehicle that can interact with moving ground robots. Those ground robots, or Roombas, have randomized movements so the aerial vehicle must make decisions on the fly rather than having preprogrammed instructions. The vehicle must herd the 10 Roombas across one side of the 20 meter by 20 meter grid. Additionally, 4 obstacle Roombas have PVC poles the vehicle must avoid. The way the vehicle must herd the Roombas is by either blocking the forward motion of the Roomba, directing it to rotate 180\degree, or tapping the pressure plate atop the Roomba, directing the Roomba to rotate 45\degree clockwise. 
+Mission 7a of IARC consists of developing an aerial vehicle that can interact with moving ground robots. These ground robots, or Roombas, have randomized movements so the aerial vehicle must make decisions on the fly rather than having preprogrammed instructions. The vehicle must herd the 10 Roombas across one side of the 20 meter by 20 meter grid. Additionally, 4 obstacle Roombas have PVC poles the vehicle must avoid. The way the vehicle must herd the Roombas is by either blocking the forward motion of the Roomba, directing it to rotate 180\degree, or tapping the pressure plate atop the Roomba, directing the Roomba to rotate 45\degree clockwise. 
 
 An added difficulty to the mission is that the setting is a (Global Positioning System) GPS denied environment. Additionally, there are no landmark features to allow the vehicle to use Simultaneous Localization and Mapping (SLAM) for orientating itself on the grid. Thus, we determined that we needed to design other methods to determine our positioning. By using a camera to observe the gridlines and an Inertial Measurement Unit (IMU), we are working our way to determining where the vehicle is on the grid. 
 
@@ -81,7 +81,7 @@ We decided to fabricate a quadcopter with aluminum arms with a carbon fiber base
 \end{figure}
 
 \subsection{Hardware} 
-At the end of the aluminum arms sit four (insert here) motors for lift. The four motors provide (insert) grams of lift, a sufficient amount for our (insert) gram quadcopter. The arms are fixed into the base pieces, which do not pass enough vibration to the sensors that we needed any additional vibration damping. 
+At the end of the aluminum arms sit four Tiger MT2216 v2 motors with 12in plastic props for lift. The four motors provide 2.25 kilograms of lift at 65\% throttle, a sufficient amount for our sightly under 2 kilogram quadcopter. The arms are fixed into the base pieces, which do not pass enough vibration to the sensors that we needed any additional vibration damping. 
 
 \begin{figure}[!htbp]
 \begin{center}
@@ -106,7 +106,7 @@ Both the optical flow sensor and the LIDAR sensor integrate with the Arducopter 
     \node [block, below right of=ESCs, xshift=.5cm] (Motors) {Motors};
     \node [block, below of=Jetson] (Camera) {Camera};
     \node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
-    \node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spectrum) {Spectrum controller};
+    \node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
     \node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LIDAR) {LIDAR};
     \node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
     % Draw edges
@@ -120,7 +120,7 @@ Both the optical flow sensor and the LIDAR sensor integrate with the Arducopter 
     \path [line, dashed] (Jetson) -- (Pixhawk);
     \path [line, dashed] (LIDAR) -- (Pixhawk);
     \path [line, dashed] (Pixhawk) -- (Telemetry);
-    \path [line, dashed] (Spectrum) -- (Pixhawk);
+    \path [line, dashed] (Spektrum) -- (Pixhawk);
     \path [line, dashed] (Pixhawk) -- (ESCs);
     \path [line] (ESCs) -- (Motors);
 \end{tikzpicture}
