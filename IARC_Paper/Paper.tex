@@ -49,7 +49,7 @@ Texas Aerial Robotics will compete in Mission 7 of the International Aerial Robo
 \subsection{The Mission}
 Mission 7a of IARC consists of developing an aerial vehicle that can interact with moving ground robots. These ground robots, or Roombas, have randomized movements so the aerial vehicle must make decisions on the fly rather than having preprogrammed instructions. The vehicle must herd the 10 Roombas across one side of the 20 by 20 square meter grid. Additionally, 4 obstacle Roombas have PVC poles the vehicle must avoid. The way the vehicle must herd the Roombas is by either blocking the forward motion of the Roomba, directing it to rotate 180\degree, or tapping the pressure plate atop the Roomba, directing the Roomba to rotate 45\degree clockwise. 
 
-An added difficulty to the mission is that the setting is a Global Positioning System (GPS) denied environment. Additionally, there are no landmark features to allow the vehicle to use Simultaneous Localization and Mapping (SLAM) for orientating itself on the grid. Thus, we determined that we needed to design other methods to determine our positioning. By using a camera to observe the gridlines and an Inertial Measurement Unit (IMU), we are working our way to determining where the vehicle is on the grid. 
+An added difficulty to the mission is that the setting is a Global Positioning System (GPS) denied environment. Additionally, there are no landmark features to allow the vehicle to use Simultaneous Localization and Mapping (SLAM) for orientating itself on the grid. Thus, we determined that we needed to design other methods to determine our positioning. Our conceptional solution is to use a camera to observe the gridlines and an Inertial Measurement Unit (IMU) to determine where the vehicle is on the grid. Once we know that, we can have a computer vision program identify ground robots at risk of leaving the field. 
 
 Mission 7b will add in an additional aerial vehicle to compete against for herding more Roombas. 
 
@@ -173,6 +173,9 @@ Below is a flowchart to illustrate our tracking algorithms: \\ \\
 
 % \subsection{Kill Switch}
 % Hopefully we will have a Kill Switch 
+
+\subsection{Risk Reduction}
+We took significant steps to ensure safe operation of the quadcopter. In order to keep the quadcopter from flying where we do not want, we have a Spektrum receiver module onboard so our designated pilot can manually control the vehicle. Additionally, we are able to check the status of the quadcopter through our telemetry to our ground station. The PX4 flight stack helps keep interference risk down through the EMI calibration on the Pixhawk. Additionally, logs from the Pixhawk showed us that vibration on the built quadcopter was well within recommended amounts. 
 
 \subsection{Prop Guards}
 Our prop guards took multiple iterations. We wanted a design that would not interfere with the prop wash, but still be able to avoid the quadcopter from destroying itself in the unfortunate event it collides with something. The first iteration looked nice, but interfered with the prop wash too much and weighed too much, reducing the thrust. 
