@@ -8,6 +8,8 @@
 			fancyhdr,
 			tikz,
 			titling}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
 \usetikzlibrary{shapes,arrows}
 \tikzstyle{block} = [rectangle, draw, fill=blue!20,
      text centered, rounded corners, minimum height=2em]
@@ -67,6 +69,7 @@
 %% Paragraph formatting (changing this messes with literally everything)
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2ex}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%% ADD TITLE HERE %%%%%%%%%%%%%%%%%%%%%%
 \title{My Article Title that is Really Long and takes Two Full Lines}
@@ -183,7 +186,23 @@
 
 			After YOLO outputs the pixel locations of each identified target Roomba, the final objective is to transform these pixel coordinates into x-y coordinates relative to the drone. In addition to the pixel coordinate (PIX \#), the other knowns are height ($z$), camera rotation angle relative to downward facing ($\theta$), and field of view ($\phi$), as well as total pixels in x and y (PIX\_MAX).  Here is a diagram to illustrate these knowns below:
 
-			(INSERT DIAGRAM HERE)
+			\begin{tikzpicture}[scale=3]
+				\coordinate [label=left:$X$] (X) at (-1.5cm,-1cm);
+				\coordinate [label=right:$Y$] (Y) at (1.5cm,-1cm);
+				\coordinate [label=above:$Z$] (Z) at (-1.5cm,1cm);
+				\coordinate (phi) at (.1cm,-1cm);
+				\coordinate (theta) at (-.75cm,-1cm);
+				\draw[<->] (Z) -- node[below] {} (X) -- node[right] {} (Y);
+				\draw (Y) -- node[above left] {} (Z);
+				\draw[dashed] (Z) -- node[below] {} (phi);
+				\draw[dashed] (Z) -- node[below] {} (theta);
+				\tkzMarkRightAngle[draw=black](Z,X,Y)
+				\tkzDrawPoints[color=black,fill=white](X)
+				\tkzMarkAngle[size=1cm,color=cyan](X,Z,phi)
+				\tkzMarkAngle[size=1.5cm,color=cyan](theta,Z,Y)
+				\tkzLabelAngle[dist=1.6cm](theta,Z,Y){$\phi$}
+				\tkzLabelAngle[dist=1.1cm](X,Z,phi){$\theta$}
+			\end{tikzpicture}
 
 			In order to transform this pixel coordinate into x-y coordinates relative to the drone, a few key assumptions made are that:
 
@@ -195,6 +214,40 @@
 			A big pitfall in this model is that no distortion from the camera lens is accounted for, these effects are still being investigated.
 
 			Now for the transformation:
+
+				\tab Pixel given from YOLO: $PIX$
+
+				\tab Pixel number of the center: $\frac{PIX\_MAX}{2}$
+
+				\tab Define $\phi$ as portion of angle from center image to pixel detected:
+
+					\tab \tab $\phi = z * abs(\frac{PIX}{PIX\_MAX} * \phi - \frac{\phi}{2})$
+
+				\tab To find the real coordinate ($REAL$) relative to the drone in the $X$ direction:
+
+					\tab \tab There are two cases:
+
+						\tab \tab \tab If $PIX$ lies above the center pixel, that is $PIX > \frac{PIX\_MAX}{2}$
+
+							\tab \tab \tab \tab Then: $REAL = z * tan(\theta + \frac{\phi}{2})$
+
+						\tab \tab \tab If $PIX$ lies below the center pixel, that is $PIX < \frac{PIX\_MAX}{2}$
+
+							\tab \tab \tab \tab Then: $REAL = z * tan(\theta - \frac{\phi}{2})$
+
+				\tab To find the real coordinate ($REAL$) relative to the drone in the $Y$ direction:
+
+				\tab Different only because top of frame is $1$ and bottom is $MAX\_PIX$, while in $X$ 'top' of frame is $MAX\_PIX$ and bottom is $1$
+
+					\tab \tab There are two cases:
+
+						\tab \tab \tab If $PIX$ lies above the center pixel, that is $PIX > \frac{PIX\_MAX}{2}$
+
+							\tab \tab \tab \tab Then: $REAL = z * tan(\theta - \frac{\phi}{2})$
+
+						\tab \tab \tab If $PIX$ lies below the center pixel, that is $PIX < \frac{PIX\_MAX}{2}$
+
+							\tab \tab \tab \tab Then: $REAL = z * tan(\theta + \frac{\phi}{2})$
 
 	\subsection*{Communications}
 	\subsection*{Power Management System}
