@@ -97,7 +97,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-Texas Aerial Robotics has constructed a custom quadrotor aircraft for the fulfillment of the International Aerial Robotics Competition Mission 7. A combination of lightweight materials and powerful propulsion enables optimizes flight time, while standardized flight control systems supported by a massive community enabled customization and adaptation to the mission at hand. This includes the integration of a multitude of sensors that enhance environmental awareness and allow for the tracking of dynamic entities inherent to the operation using homebrewed algorithms and the significant computing power onboard the aircraft. Safe development has been assured by strategic selection of components, thorough vetting of software in Software in the Loop simulation, and robust testing procedures in secure areas.
+Texas Aerial Robotics has constructed a custom quadrotor aircraft for the fulfillment of the International Aerial Robotics Competition Mission 7. A combination of lightweight materials and powerful propulsion enables optimized flight time, while standardized flight control systems supported by a massive community enabled customization and adaptation to the mission at hand. This includes the integration of a multitude of sensors that enhance environmental awareness and allow for the tracking of dynamic entities inherent to the operation using homebrewed algorithms and the significant computing power onboard the aircraft. Safe development has been assured by strategic selection of components, thorough vetting of software in Software in the Loop simulation, and robust testing procedures in secure areas.
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,7 +108,44 @@ Texas Aerial Robotics has constructed a custom quadrotor aircraft for the fulfil
 
 	Texas Aerial Robotics addresses these challenges by utilizing computer vision. Through computer vision the drone has the ability to both understand its location, and also track targets in real time. The drone records the data and position of the objects, simulating those which lie beyond the field of view, which allows for strategic analysis and definition based on estimates of unseen/out of sight targets. Interaction with these objectives is achieved using the carbon fiber bottom plate of the aircraft and perimeter prop guards, a material choice that lends itself to lightweight resiliency. 
 
-	Yearly Objectives:
+	\begin{figure}[!htbp]
+	\begin{center}
+	\begin{tikzpicture}[node distance = 1.5cm and 8cm, auto]
+	    % Place nodes
+	    \node [block] (battery) {Battery};
+	    \node [block, below of=battery] (siphon) {Power siphon};
+	    \node [block, below of=siphon] (Pixhawk) {Pixhawk};
+	    \node [block, below right of=battery, xshift=3cm, align=center] (PDB) {Power Distribution \\ Board};
+	    \node [block, below left of=battery, xshift=-3cm, yshift=-.7cm] (Jetson) {Nvidia Jetson TX2s};
+	    \node [block, right of=Pixhawk, xshift=2.6cm] (ESCs) {ESCs};
+	    \node [block, below right of=ESCs, xshift=.5cm] (Motors) {Motors};
+	    \node [block, below right of=Jetson] (Camera) {Cameras};
+	    \node [block, below left of=Jetson] (2dLidar) {2D LiDAR};
+	    \node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
+	    \node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
+	    \node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LIDAR) {LIDAR};
+	    \node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
+	    % Draw edges
+	    \path [line] (battery) -- (siphon);
+	    \path [line] (siphon) -- (Pixhawk);
+	    \path [line] (battery) -- (PDB);
+	    \path [line] (PDB) -- (ESCs);
+	    \path [line] (battery) -- (Jetson);
+	    \path [line, dashed] (Camera) -- (Jetson);
+	    \path [line, dashed] (2dLidar) -- (Jetson);
+	    \path [line, dashed] (Flow) -- (Pixhawk);
+	    \path [line, dashed] (Jetson) -- (Pixhawk);
+	    \path [line, dashed] (LIDAR) -- (Pixhawk);
+	    \path [line, dashed] (Pixhawk) -- (Telemetry);
+	    \path [line, dashed] (Spektrum) -- (Pixhawk);
+	    \path [line, dashed] (Pixhawk) -- (ESCs);
+	    \path [line] (ESCs) -- (Motors);
+	\end{tikzpicture}
+	\caption*{Flowchart of quadcopter electronics \\ \tiny *Solid arrows indicate power while dashed lines indicate power+data}
+	\end{center}
+	\end{figure}
+
+	\subsection{Yearly Milestones}
 	2017 - Have a working bot, with computer vision software in working or nearly working
 	2018 - Continue development of computer vision, develop a computational  game strategy through creation of simulations of the motion of roombas, tweak the physique of the drone for better flight control and stability
 
