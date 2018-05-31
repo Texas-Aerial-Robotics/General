@@ -97,20 +97,22 @@
 
 %%%%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-\lipsum[1]
+Texas Aerial Robotics has constructed a custom quadrotor aircraft for the fulfillment of the International Aerial Robotics Competition Mission 7. A combination of lightweight materials and powerful propulsion enables optimizes flight time, while standardized flight control systems supported by a massive community enabled customization and adaptation to the mission at hand. This includes the integration of a multitude of sensors that enhance environmental awareness and allow for the tracking of dynamic entities inherent to the operation using homebrewed algorithms and the significant computing power onboard the aircraft. Safe development has been assured by strategic selection of components, thorough vetting of software in Software in the Loop simulation, and robust testing procedures in secure areas.
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%% MAIN TEXT %%%%%%%%%%%%%%%%%%%%%%
 
 \section*{INTRODUCTION}
-	Previous aerial robotics missions have always allowed for GPS or set navigation points that would allow for constant location data for the drone. Location data is important to any mission because awareness of this information is the foundation to completing the given mission. Lack thereof navigation data could result in various failures, including complete loss of control of the drone. On top of this, the mission is to also design the dorne around the fact that the targets the drone is trying to ‘herd’ are ground targets.   The drone must touch the targets to navigate the targets, rather than the usual pick up and move to the destination.
+	Previous aerial robotics missions have always allowed for GPS or set navigation points that allowed for constant locational awareness for the drone. Location data is important to any mission, as telemetry prevents various failures, including complete loss of control for the drone. Thus, mission 7 requires novel solution to deriving this critical telemetry, as GPS is forbidden. Additionally, the aircraft must be capable of interacting with ground vehicles without being directly informed of their locations, requiring advanced detection and robust hardware designed for repeated contact.
 
-	The solution we came up with to address these challenges was enacting the use of computer vision as the basis to the drones function and execution of tasks. Through computer vision the bot has the ability to both understand its location, and also track targets in real time. The drone records the data and position of the targets, and then for targets out of sight simulates the position of the targets until they come into sight, which allows for strategic analysis and definition based on estimates of unseen/out of sight targets. 
+	Texas Aerial Robotics addresses these challenges by utilizing computer vision. Through computer vision the drone has the ability to both understand its location, and also track targets in real time. The drone records the data and position of the objects, simulating those which lie beyond the field of view, which allows for strategic analysis and definition based on estimates of unseen/out of sight targets. Interaction with these objectives is achieved using the carbon fiber bottom plate of the aircraft and perimeter prop guards, a material choice that lends itself to lightweight resiliency. 
 
 	Yearly Objectives:
 	2017 - Have a working bot, with computer vision software in working or nearly working
 	2018 - Continue development of computer vision, develop a computational  game strategy through creation of simulations of the motion of roombas, tweak the physique of the drone for better flight control and stability
+
+
 
 
 
@@ -285,9 +287,13 @@
 		\]
 	
 		CR is the correction vector formulated from the corner detection vision algorithm. EKFdronePose is the position of the drone queried from the pixhawk. R(3) is the rotation matrix about the third axis. GymOffset is the direction of the 2 axis defined during the startup sequence before flight. The new coordinate in the gym frame is passed off to the strategy node as data to be acted on. 
-
+	\subsection*{Threat Avoidance}
+		Our avoidance system takes data from a 2d LiDAR that is used to identify the obstacle roombas. This data is passed and the Strategy node uses this data to weight possible movements negatively based on their relative position to the target roombas. The Control node also will use the data, and in the event an obstacle robot is within 1.5 [m] will issue a waypoint opposite of the minimum vector.
 
 	\subsection*{Communications}
+		On the Jetsons data is passed between software nodes via ROS. Data in between our multiple Jetsons is passed via ros messages through direct ethernet connections. Commands to flight commuter are passed via serial connection with data encoded in MAVLINK messages. 
+
+
 	\subsection*{Power Management System}
 		The quadcopter uses  a 10000mAh 4S 10C LiPo battery and a 2000mAh 3S 15C LiPo battery for power. The 10000mAh 4S 10C LiPo is used to power our ESCs and Motors. With 4 T-Motor U3 K700 motors running at close to the ideal 50\% throttle, a 4 Cell battery was necessary to reach the 1800 grams of thrust per motor needed for hovering flight. The 2000mAh 3S 15C LiPo will power the flight control board and Jetson compute units.
 		\begin{align*}
@@ -369,6 +375,7 @@
 
 
 \section*{Conclusion}
+		Texas Aerial Robotics’ solution to the challenges provided by IARC mission 7 are bountiful and diverse. The physical design process, from the ground up, optimizes flight time while enabling the physical contact required for success, Unique software utilizes input from an expansive battery of sensors to overcome the telemetry limitations imparted by the contest and track the dynamic objectives as they move about the area. Safe operation of these vast networks of interlocking components has been ensured through particular hardware selection and thorough vetting.
 	\nocite{redmon2016yolo9000}
 	\bibliography{bibliography}
 	\bibliographystyle{plain}
