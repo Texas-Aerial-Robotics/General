@@ -217,7 +217,7 @@ text centered, rounded corners, minimum height=2em]
 		\subsubsection*{GNC Sensors}
 			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter are a downwards-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of our flight control board, the Pixhawk 2.
 
-			The 1-D LiDAR module used is the LiDAR-lite v3 from Garmin. This one dimensional sensor is directed downwards and provides data that is used to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring distance travelled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and the maneuvering of the quadcopter.
+			The 1D LiDAR module used is the LiDAR-lite v3 from Garmin. This one dimensional sensor is directed downwards and provides data that is used to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring distance travelled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and the maneuvering of the quadcopter.
 
 		\subsubsection*{Mission Sensors}
 			For the goal of completing Mission 7 the drone must be able to detect Roombas and obstacles. The quadcopter is equipped with a single downward facing camera, four outward facing cameras, and a two-dimensional plane LiDAR sensor for obstacle avoidance.
@@ -337,7 +337,7 @@ text centered, rounded corners, minimum height=2em]
 	\subsection*{Power Management System}
 		The quadcopter uses a 10000mAh 4S 10C LiPo battery and a 2000mAh 3S 15C LiPo battery for power. The 10000mAh 4S 10C LiPo is used to power our ESCs and Motors. With 4 T-Motor U3 K700 motors running at close to the ideal 50\% throttle, a 4 Cell battery was necessary to reach the 1800 grams of thrust per motor needed for hovering flight. The 2000mAh 3S 15C LiPo will power the flight control board and Jetson compute units.
 		\begin{center}
-			$T(min) = \frac{\text{Battery power}(AH) * 60}{\text{Total current drawn by motors}}$
+			$T_{min} = \frac{\text{Battery power}(AH) * 60}{\text{Total current drawn by motors}}$
 		\end{center}
 
 		Assuming an average throttle of 65\% for maneuvering, we see a 9 A current draw from each motor, and with a 10 Ah battery, that provides us with 16 minutes of flight time with minimal maneuvering and height change. This gives us plenty of headroom for more intense altitude and positioning changes, which will allow us to move more quickly during the competition, a valuable asset with the given time limitation.
