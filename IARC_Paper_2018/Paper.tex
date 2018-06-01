@@ -173,10 +173,10 @@ text centered, rounded corners, minimum height=2em]
 			We have made slight modifications to the Arducopter firmware, which allow us to set the EKF origin. This has been done to allow our drone to navigate in GPS denied environments. For general waypoint navigation, the drone utilizes the Arducopter EKF that takes in data from the IMU, compass, altitude LiDAR and the optical flow sensor. The EKF position is then queried via mavros, so that our strategy code can use our position to make intelligent decisions. In addition, the strategy node takes in data from computer vision and 2d lidar. The strategy will determine a waypoint and mode, and the ros controls node will do a sanity check on the waypoint, then publish the waypoint until the drone has reached its destination. Over time, the EKF will have error in comparison to reality. To combat this, the control node will input a correction vector. This correction vector is formed from our computer vision algorithm that recognizes the absolute corners of the grid. This algorithm goes as follows. Gaussian blur, color threshold, erosion, dilation, Canny, Hough, line intersection, and non maximum suppression.
 
 		\begin{figure}[!htbp]
-		\begin{center}
-		\includegraphics[width=0.75\textwidth]{system}
-		\caption*{Overview of control system}
-		\end{center}
+			\begin{center}
+				\includegraphics[width=0.75\textwidth]{system}
+				\caption*{Overview of control system}
+			\end{center}
 		\end{figure}
 
 		% \begin{figure}[!htbp]
@@ -272,10 +272,7 @@ text centered, rounded corners, minimum height=2em]
 
 				Pixel given from YOLO: $PIX$
 
-
-				
 				Pixel number of the center: $PIX\_CTR = \frac{PIX\_MAX}{2}$
-				
 
 				Define $\psi$ as portion of angle from center image to pixel detected:
 
@@ -291,9 +288,10 @@ text centered, rounded corners, minimum height=2em]
 						\end{center}
 						\tab If $PIX$ lies below the center pixel, that is $PIX < PIX\_CTR$, Then:
 						\begin{center}
-							$REAL = z * tan(\theta - \frac{\psi}{2})$6s
+							$REAL = z * tan(\theta - \frac{\psi}{2})$
 						\end{center}
 				There are two cases to finding the real coordinate ($REAL$) relative to the drone in the $Y$ direction:
+
 						\tab If $PIX$ lies above the center pixel, that is $PIX > PIX\_CTR$
 						\begin{center}
 							$REAL = z * tan(\theta - \frac{\psi}{2})$
