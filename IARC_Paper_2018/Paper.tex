@@ -273,9 +273,9 @@ text centered, rounded corners, minimum height=2em]
 				Pixel given from YOLO: $PIX$
 
 
-				\begin{center}
-					Pixel number of the center: $PIX\_CTR = \frac{PIX\_MAX}{2}$
-				\end{center}
+				
+				Pixel number of the center: $PIX\_CTR = \frac{PIX\_MAX}{2}$
+				
 
 				Define $\psi$ as portion of angle from center image to pixel detected:
 
@@ -291,7 +291,7 @@ text centered, rounded corners, minimum height=2em]
 						\end{center}
 						\tab If $PIX$ lies below the center pixel, that is $PIX < PIX\_CTR$, Then:
 						\begin{center}
-							$REAL = z * tan(\theta - \frac{\psi}{2})$
+							$REAL = z * tan(\theta - \frac{\psi}{2})$6s
 						\end{center}
 				There are two cases to finding the real coordinate ($REAL$) relative to the drone in the $Y$ direction:
 						\tab If $PIX$ lies above the center pixel, that is $PIX > PIX\_CTR$
@@ -302,7 +302,7 @@ text centered, rounded corners, minimum height=2em]
 						\begin{center}
 							$REAL = z * tan(\theta + \frac{\psi}{2})$
 						\end{center}
-				This is different from the x only because top of frame is $1$ and bottom is $MAX\_PIX$, while in $X$ 'top' of frame is $MAX\_PIX$ and bottom is $1$.
+				This is different from the x only because top of frame is $1$ and bottom is $PIX\_MAX$, while in $X$ 'top' of frame is $PIX\_MAX$ and bottom is $1$.
 			\end{spacing}
 
 		Once the coordinate X,Y in meters is found relative to the drone, it must be transformed into a coordinate that is in the 'gym reference frame'. The gym reference frame is defined as a right handed coordinate system starting in the bottom left hand corner of the field where the green line meets the outer white line. This transformation is defined as followed.
