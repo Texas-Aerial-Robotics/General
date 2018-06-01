@@ -111,49 +111,50 @@ text centered, rounded corners, minimum height=2em]
 
 %%%%%%%%%%%%%%%%%%%%%% MAIN TEXT %%%%%%%%%%%%%%%%%%%%%%
 
-\section*{Introduction}
+\section*{INTRODUCTION}
 	Previous aerial robotics missions have always allowed for GPS or set navigation points that allowed for constant locational awareness for the drone. Location data is important to any mission, as telemetry prevents various failures, including complete loss of control for the drone. Thus, Mission 7 requires novel solutions to deriving this critical telemetry, as GPS is forbidden. Additionally, the aircraft must be capable of interacting with ground vehicles without being directly informed of their locations, requiring advanced detection and robust hardware designed for repeated contact.
 
 	Texas Aerial Robotics addresses these challenges by utilizing computer vision. Through computer vision, the drone has the ability to both understand its location and also track targets in real time. The drone records the data and position of the objects, simulating those which lie beyond the field of view, which allows for strategic analysis and definition based on estimates of unseen/out of sight targets. Interaction with these objectives is achieved using the carbon fiber bottom plate of the aircraft and perimeter prop guards, a material choice that lends itself to lightweight resiliency.
 
 	\begin{figure}[!htbp]
-	\begin{center}
-	\begin{tikzpicture}[node distance = 1.5cm and 8cm, auto]
-		% Place nodes
-		\node [block] (electronicsBattery) {Electonics Battery};
-		\node [block, right of=electronicsBattery, xshift=2.5cm] (motorBattery) {Motor Battery};
-		\node [block, below of=electronicsBattery] (siphon) {Power siphon};
-		\node [block, below of=siphon] (Pixhawk) {Pixhawk};
-		\node [block, below right of=electronicsBattery, xshift=3cm, yshift=-.5cm, align=center] (PDB) {Power Distribution \\ Board};
-		\node [block, below left of=electronicsBattery, xshift=-3cm, yshift=-.7cm] (Jetson) {Nvidia Jetson TX2s};
-		\node [block, right of=Pixhawk, xshift=2.6cm] (ESCs) {ESCs};
-		\node [block, below right of=ESCs, xshift=.5cm] (Motors) {Motors};
-		\node [block, below right of=Jetson, yshift=-.5cm] (Camera) {Cameras};
-		\node [block, below left of=Jetson, yshift=-.5cm] (2dLidar) {2D LiDAR};
-		\node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
-		\node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
-		\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LiDAR) {LiDAR};
-		\node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
-		% Draw edges
-		\path [line] (electronicsBattery) -- (siphon);
-		\path [line] (siphon) -- (Pixhawk);
-		\path [line] (motorBattery) -- (PDB);
-		\path [line] (PDB) -- (ESCs);
-		\path [line] (electronicsBattery) -- (Jetson);
-		\path [line, dashed] (Camera) -- (Jetson);
-		\path [line, dashed] (2dLidar) -- (Jetson);
-		\path [line, dashed] (Flow) -- (Pixhawk);
-		\path [line, dashed] (Jetson) -- (Pixhawk);
-		\path [line, dashed] (LiDAR) -- (Pixhawk);
-		\path [line, dashed] (Pixhawk) -- (Telemetry);
-		\path [line, dashed] (Spektrum) -- (Pixhawk);
-		\path [line, dashed] (Pixhawk) -- (ESCs);
-		\path [line] (ESCs) -- (Motors);
-	\end{tikzpicture}
-	\caption*{Flowchart of quadcopter electronics \\ \scriptsize *Solid arrows indicate power while dashed lines indicate power+data}
-	\end{center}
+		\begin{center}
+			\begin{tikzpicture}[node distance = 1.5cm and 8cm, auto]
+				% Place nodes
+				\node [block] (electronicsBattery) {Electonics Battery};
+				\node [block, right of=electronicsBattery, xshift=2.5cm] (motorBattery) {Motor Battery};
+				\node [block, below of=electronicsBattery] (siphon) {Power siphon};
+				\node [block, below of=siphon] (Pixhawk) {Pixhawk};
+				\node [block, below right of=electronicsBattery, xshift=3cm, yshift=-.5cm, align=center] (PDB) {Power Distribution \\ Board};
+				\node [block, below left of=electronicsBattery, xshift=-3cm, yshift=-.7cm] (Jetson) {Nvidia Jetson TX2s};
+				\node [block, right of=Pixhawk, xshift=2.6cm] (ESCs) {ESCs};
+				\node [block, below right of=ESCs, xshift=.5cm] (Motors) {Motors};
+				\node [block, below right of=Jetson, yshift=-.5cm] (Camera) {Cameras};
+				\node [block, below left of=Jetson, yshift=-.5cm] (2dLidar) {2D LiDAR};
+				\node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
+				\node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
+				\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LiDAR) {LiDAR};
+				\node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
+				% Draw edges
+				\path [line] (electronicsBattery) -- (siphon);
+				\path [line] (siphon) -- (Pixhawk);
+				\path [line] (motorBattery) -- (PDB);
+				\path [line] (PDB) -- (ESCs);
+				\path [line] (electronicsBattery) -- (Jetson);
+				\path [line, dashed] (Camera) -- (Jetson);
+				\path [line, dashed] (2dLidar) -- (Jetson);
+				\path [line, dashed] (Flow) -- (Pixhawk);
+				\path [line, dashed] (Jetson) -- (Pixhawk);
+				\path [line, dashed] (LiDAR) -- (Pixhawk);
+				\path [line, dashed] (Pixhawk) -- (Telemetry);
+				\path [line, dashed] (Spektrum) -- (Pixhawk);
+				\path [line, dashed] (Pixhawk) -- (ESCs);
+				\path [line] (ESCs) -- (Motors);
+			\end{tikzpicture}
+		\caption*{Flowchart of quadcopter electronics \\ \scriptsize *Solid arrows indicate power while dashed lines indicate power+data}
+		\end{center}
 	\end{figure}
 
+	\pagebreak
 	\subsection*{Yearly Milestones}
 
 	2017 - Have a working bot, with computer vision software in working or nearly working state
@@ -161,7 +162,7 @@ text centered, rounded corners, minimum height=2em]
 	2018 - Continue development of computer vision, develop a computational game strategy through creation of simulations of the motion of Roombas, tweak the physique of the drone for better flight control and stability
 
 
-\section*{Air Vehicle}
+\section*{AIR VEHICLE}
 	\subsection*{Propulsion and Lift System}
 			The vehicle utilizes an x-y axis symmetrical quad-rotor system. This provides a balanced airframe optimized for omnidirectional maneuvering. The frame is lifted by four T-Motor U3 KV700 motors. These motors provide 1.8 [kg] of thrust per motor at 100\% throttle when paired with a 4-cell battery and 13 [in] propellers for total 7.2 [kg] of thrust. This is necessary for our 3.15 [kg] weight to maintain a 2.2 thrust-to-weight ratio, ideal for battery life and flight time.
 
@@ -186,7 +187,7 @@ text centered, rounded corners, minimum height=2em]
 			Our drone houses a 40 [A] brushless ESC connected to an RC receiver, which acts as our kill switch. In the event of catastrophic failure, the safety operator can send the kill signal, and all power will be cut from the drone's systems.
 
 
-\section*{Payload}
+\section*{PAYLOAD}
 	The drone has been designed to carry all the necessary GNC sensors, 2D LiDAR, an array of cameras, and 3 Nvidia Jetson TX2s. In addition, the drone carries a telemetry radio, kill switch, and RC receiver in order to carry out safe flight.
 	\subsection*{Sensor Suite}
 		\subsubsection*{GNC Sensors}
@@ -318,7 +319,7 @@ text centered, rounded corners, minimum height=2em]
 
 		To save on weight and space, we chose a 10C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 25 [A] and maximum practical current draw of 19.4 [A] required by the motors. The 10000 [mAh] battery with a 10C discharge rate gives us a maximum continuous current draw of 100 [A], matching the limit of the motors.
 
-		The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 10 minute flight times at speeds below 15 [mph]
+		The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 10 minute flight times at speeds below 15 [mph].
 
 		\begin{figure}[!htbp]
 			\begin{center}
@@ -329,11 +330,11 @@ text centered, rounded corners, minimum height=2em]
 		As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 [mAh] was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
 
 
-\section*{Operations}
+\section*{OPERATIONS}
 	\subsection*{Flight Preparations}
 		\subsubsection*{Checklist}
 			\begin{my_enumerate}
-				\item Check battery voltage (12.0-12.6v) and insert
+				\item Check battery voltage (12.0-12.6V) and insert
 				\item Make sure LiDAR and PX4FLOW are not covered
 				\item Make sure that ESCs are plugged in to the right pins
 				\item Make sure prop guards are secure
@@ -357,7 +358,7 @@ text centered, rounded corners, minimum height=2em]
 	\subsection*{Man/Machine Interface}
 		The drone has a DX7 RC controller interface for system checks and emergency situations. In addition, the flight controller can be monitored via a telemetry radio using Mission Planner. Our autonomous scripts must be initiated by an SSH connection to our Nvidia Jetsons.
 
-\section*{Risk Reduction}
+\section*{RISK REDUCTION}
 	\subsection*{Vehicle Status}
 		\subsubsection*{Shock/Vibration Isolation}
 		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our first drone last year, flight logs from the Pixhawk confirmed that vibration on the built quadcopter was well within recommended amounts. The team believes there is no need to have landing shocks, as the sophisticated Arducopter flight stack has logic to recognize landing. Because of this, nominal landings will not interfere with the guidance or navigation of the drone.
@@ -391,7 +392,7 @@ text centered, rounded corners, minimum height=2em]
 		Regardless of the setting, each flight test was conducted with constant apparatus: a four meter by four meter test mat printed with the pattern expected at competition to allow optical flow for navigation. Across this mat drives a test Roomba, which accurately recreates both the physical appearance and behaviors of those robots that will be tracked at the venue, complete with top plate and switch. Finally, there is the drone itself, which starts on a corner of the mat, takes off autonomously, and then executes the maneuver to be tested.
 
 
-\section*{Conclusion}
+\section*{CONCLUSION}
 	Texas Aerial Robotics' solutions to the challenges provided by IARC Mission 7 are bountiful and diverse. The physical design process, from the ground up, optimizes flight time while enabling the physical contact required for success. Unique software utilizes input from an expansive collection of sensors to overcome the telemetry limitations imparted by the contest and track the dynamic objectives as they move about the area. Safe operation of these vast networks of interlocking components has been ensured through particular hardware selection and thorough vetting.
 	\nocite{redmon2016yolo9000}
 	\nocite{GitHubSPACEROBOTICS}
