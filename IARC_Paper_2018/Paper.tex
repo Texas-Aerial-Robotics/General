@@ -226,7 +226,7 @@ text centered, rounded corners, minimum height=2em]
 
 
 		\subsection*{Target Identification}
-			For target identification, the drone carries five Logitech C270 USB webcams. One of the cameras is located at the bottom of the drone and faces straight downward. The other four cameras are mounted on the bottom side of each arm facing outward. All five cameras are mounted for identifying as many target Roombas surrounding the drone as possible in order to send their coordinates to the strategy node.
+			For target identification, the drone carries four Logitech C270 USB webcams and one Logitech C210 USB webcam. One of the cameras is located at the bottom of the drone and faces straight downward. The other four cameras are mounted on the bottom side of each arm facing outward. All five cameras are mounted for identifying as many target Roombas surrounding the drone as possible in order to send their coordinates to the strategy node.
 
 			There are two main objectives that need to be completed to successfully relay target information to the strategy node. The first objective is to take in the raw video data and detect the target Roombas so that pixel numbers of the centroids of the Roombas in the frame can be sent as output. The second objective is to take the pixel numbers of the centroids of the detected Roombas as input, and then output x and y coordinates relative to the drone using a coordinate transformation and the known height and orientation of the camera with respect to the floor.
 
@@ -270,36 +270,37 @@ text centered, rounded corners, minimum height=2em]
 
 				\textbf{Transformation}:
 
-				Pixel given from YOLO: $PIX$ Pixel number of the center:
+				Pixel given from YOLO: $PIX$ 
+
 
 				\begin{center}
-					$PIX = \frac{PIX\_MAX}{2}$
+					Pixel number of the center: $PIX\_CTR = \frac{PIX\_MAX}{2}$
 				\end{center}
 
-				Define $\phi$ as portion of angle from center image to pixel detected:
+				Define $\psi$ as portion of angle from center image to pixel detected:
 
 				\begin{center}
-					$\phi = z * abs(\frac{PIX}{PIX\_MAX} * \phi - \frac{\phi}{2})$
+					$\psi = z * abs(\frac{PIX}{PIX\_MAX} * \phi - \frac{\phi}{2})$
 				\end{center}
 
 				To find the real coordinate ($REAL$) relative to the drone in the $X$ direction, There are two cases:
 
-						\tab If $PIX$ lies above the center pixel, that is $PIX > \frac{PIX\_MAX}{2}$, Then:
+						\tab If $PIX$ lies above the center pixel, that is $PIX > PIX\_CTR$, Then:
 						\begin{center}
-							$REAL = z * tan(\theta + \frac{\phi}{2})$
+							$REAL = z * tan(\theta + \frac{\psi}{2})$
 						\end{center}
-						\tab If $PIX$ lies below the center pixel, that is $PIX < \frac{PIX\_MAX}{2}$, Then:
+						\tab If $PIX$ lies below the center pixel, that is $PIX < PIX\_CTR$, Then:
 						\begin{center}
-							$REAL = z * tan(\theta - \frac{\phi}{2})$
+							$REAL = z * tan(\theta - \frac{\psi}{2})$
 						\end{center}
 				There are two cases to finding the real coordinate ($REAL$) relative to the drone in the $Y$ direction:
-						\tab If $PIX$ lies above the center pixel, that is $PIX > \frac{PIX\_MAX}{2}$
+						\tab If $PIX$ lies above the center pixel, that is $PIX > PIX\_CTR$
 						\begin{center}
-							$REAL = z * tan(\theta - \frac{\phi}{2})$
+							$REAL = z * tan(\theta - \frac{\psi}{2})$
 						\end{center}
-						\tab If $PIX$ lies below the center pixel, that is $PIX < \frac{PIX\_MAX}{2}$
+						\tab If $PIX$ lies below the center pixel, that is $PIX < PIX\_CTR$
 						\begin{center}
-							$REAL = z * tan(\theta + \frac{\phi}{2})$
+							$REAL = z * tan(\theta + \frac{\psi}{2})$
 						\end{center}
 				This is different from the x only because top of frame is $1$ and bottom is $MAX\_PIX$, while in $X$ 'top' of frame is $MAX\_PIX$ and bottom is $1$.
 			\end{spacing}
@@ -312,6 +313,9 @@ text centered, rounded corners, minimum height=2em]
 		\begin{center}
 			$roombaPosGym = CR + EKFdronePose + R(3)(YawAngle)*roombaPosDrone$
 		\end{center}
+
+
+		This is different from the x only because top of frame is $1$ and bottom is $PIX\_MAX$, while in $X$ 'top' of frame is $MAX\_PIX$ and bottom is $1$. 
 
 		\[
 		R(3) =
