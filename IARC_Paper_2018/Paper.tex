@@ -130,7 +130,7 @@ text centered, rounded corners, minimum height=2em]
 		\node [block, below left of=Jetson] (2dLidar) {2D LiDAR};
 		\node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
 		\node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
-		\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LIDAR) {LIDAR};
+		\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LiDAR) {LiDAR};
 		\node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
 		% Draw edges
 		\path [line] (battery) -- (siphon);
@@ -142,7 +142,7 @@ text centered, rounded corners, minimum height=2em]
 		\path [line, dashed] (2dLidar) -- (Jetson);
 		\path [line, dashed] (Flow) -- (Pixhawk);
 		\path [line, dashed] (Jetson) -- (Pixhawk);
-		\path [line, dashed] (LIDAR) -- (Pixhawk);
+		\path [line, dashed] (LiDAR) -- (Pixhawk);
 		\path [line, dashed] (Pixhawk) -- (Telemetry);
 		\path [line, dashed] (Spektrum) -- (Pixhawk);
 		\path [line, dashed] (Pixhawk) -- (ESCs);
@@ -166,11 +166,11 @@ text centered, rounded corners, minimum height=2em]
 
 	\subsection*{Guidance, Navigation, and Control}
 		\subsubsection*{Stability Augmentation System}
-			Our system builds off of the robust open source project Arducopter. Arducopter, runs on the Pixhawk, and controls the stability of the drone by taking in data from the IMU, compass, altitude LIDAR and the optical flow sensor. The Arducopter flight stack is maintained by hundreds of developers from around the world and the software is deployed on thousands of commercial and recreational drones. The vast community of developers and users ensures refined controls code with lots of features.
+			Our system builds off of the robust open source project Arducopter. Arducopter, runs on the Pixhawk, and controls the stability of the drone by taking in data from the IMU, compass, altitude LiDAR and the optical flow sensor. The Arducopter flight stack is maintained by hundreds of developers from around the world and the software is deployed on thousands of commercial and recreational drones. The vast community of developers and users ensures refined controls code with lots of features.
 
 
 		\subsubsection*{Navigation}
-			We have made slight modifications to the Arducopter firmware, which allow us to set the EKF origin. This has been done to allow our drone to navigate in GPS denied environments. For general waypoint navigation, the drone utilizes the Arducopter EKF that takes in data from the IMU, compass, altitude LIDAR and the optical flow sensor. The EKF position is then queried via mavros, so that our strategy code can use our position to make intelligent decisions. In addition, the strategy node takes in data from computer vision and 2d lidar. The strategy will determine a waypoint and mode, and the ros controls node will do a sanity check on the waypoint, then publish the waypoint until the drone has reached its destination. Over time, the EKF will have error in comparison to reality. To combat this, the control node will input a correction vector. This correction vector is formed from our computer vision algorithm that recognizes the absolute corners of the grid. This algorithm goes as follows. Gaussian blur, color threshold, erosion, dilation, Canny, Hough, line intersection, and non maximum suppression.
+			We have made slight modifications to the Arducopter firmware, which allow us to set the EKF origin. This has been done to allow our drone to navigate in GPS denied environments. For general waypoint navigation, the drone utilizes the Arducopter EKF that takes in data from the IMU, compass, altitude LiDAR and the optical flow sensor. The EKF position is then queried via mavros, so that our strategy code can use our position to make intelligent decisions. In addition, the strategy node takes in data from computer vision and 2d lidar. The strategy will determine a waypoint and mode, and the ros controls node will do a sanity check on the waypoint, then publish the waypoint until the drone has reached its destination. Over time, the EKF will have error in comparison to reality. To combat this, the control node will input a correction vector. This correction vector is formed from our computer vision algorithm that recognizes the absolute corners of the grid. This algorithm goes as follows. Gaussian blur, color threshold, erosion, dilation, Canny, Hough, line intersection, and non maximum suppression.
 
 		\begin{figure}[!htbp]
 		\begin{center}
@@ -188,7 +188,7 @@ text centered, rounded corners, minimum height=2em]
 		% 			\node [block, right of=IMU] (EKF) {EKF};
 		% 			\node [block, below of=EKF] (Vision) {Vision};
 		% 			\node [block, below right of=EKF] (Strategy) {Strategy};
-		% 			\node [block, below right of=Strategy] (2DLIDAR) {2D LIDAR};
+		% 			\node [block, below right of=Strategy] (2DLiDAR) {2D LiDAR};
 		% 			\node [block, right of=Strategy] (mavros) {mavros};
 		% 			\node [block, right of=mavros] (Pixhawk) {Pixhawk};
 		% 			\node [block, right of=Pixhawk] (Move) {Move};
@@ -197,8 +197,8 @@ text centered, rounded corners, minimum height=2em]
 		% 			\path [line] (Camera) -- (Vision);
 		% 			\path [line] (EKF) -- (Strategy);
 		% 			\path [line] (Vision) -- (Strategy);
-		% 			\path [line] (2DLIDAR) -- (Strategy);
-		% 			\path [line] (2DLIDAR) -- (mavros);
+		% 			\path [line] (2DLiDAR) -- (Strategy);
+		% 			\path [line] (2DLiDAR) -- (mavros);
 		% 			\path [line] (Strategy) -- (mavros);
 		% 			\path [line] (mavros) -- (Pixhawk);
 		% 			\path [line] (Pixhawk) -- (Move);
@@ -208,14 +208,14 @@ text centered, rounded corners, minimum height=2em]
 		% \end{figure}
 
 		\subsubsection*{Flight Termination System}
-			Our drone houses a 40 amp brushless esc connected to a rc receiver, which acts as our kill switch. In the event of catastrophic failure the safety operator can send the kill signal, and all power will be cut to the drone's systems.
+			Our drone houses a 40 [A] brushless ESC connected to a RC receiver, which acts as our kill switch. In the event of catastrophic failure the safety operator can send the kill signal, and all power will be cut to the drone's systems.
 
 
 \section*{Payload}
-	The Drone has been designed to carry all the necessary GNC sensors, 2d LIDAR, and array of cameras and 3 nvidia TX2 Jetsons. In addition the drone carries a telemetry radio, kill switch and rc receiver in order to carry out safe flight.
+	The drone has been designed to carry all the necessary GNC sensors, 2D LiDAR, and array of cameras and 3 Nvidia Jetson TX2s. In addition the drone carries a telemetry radio, kill switch, and RC receiver in order to carry out safe flight.
 	\subsection*{Sensor Suite}
 		\subsubsection*{GNC Sensors}
-			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter are a downwards-facing 1-D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of our flight control board, the Pixhawk 2.
+			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter are a downwards-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of our flight control board, the Pixhawk 2.
 
 			The 1-D LiDAR module used is the LiDAR-lite v3 from Garmin. This one dimensional sensor is directed downwards and provides data that is used to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring distance travelled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and the maneuvering of the quadcopter.
 
@@ -270,7 +270,7 @@ text centered, rounded corners, minimum height=2em]
 
 				\textbf{Transformation}:
 
-				Pixel given from YOLO: $PIX$ 
+				Pixel given from YOLO: $PIX$
 
 
 				\begin{center}
@@ -315,7 +315,7 @@ text centered, rounded corners, minimum height=2em]
 		\end{center}
 
 
-		This is different from the x only because top of frame is $1$ and bottom is $PIX\_MAX$, while in $X$ 'top' of frame is $MAX\_PIX$ and bottom is $1$. 
+		This is different from the x only because top of frame is $1$ and bottom is $PIX\_MAX$, while in $X$ 'top' of frame is $MAX\_PIX$ and bottom is $1$.
 
 		\[
 		R(3) =
@@ -359,7 +359,7 @@ text centered, rounded corners, minimum height=2em]
 		\subsubsection*{Checklist}
 			\begin{my_enumerate}
 				\item Check battery voltage (12.0-12.6v) and insert
-				\item Make sure LIDAR and PX4FLOW are not covered
+				\item Make sure LiDAR and PX4FLOW are not covered
 				\item Make sure that ESCs are plugged in to the right pins
 				\item Make sure prop guards are secure
 				\item Make sure that the props are on in the correct direction (leading edge in)
