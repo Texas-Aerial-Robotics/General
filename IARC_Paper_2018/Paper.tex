@@ -12,6 +12,7 @@
 			titling}
 \usepackage{tkz-euclide}
 \usepackage{setspace}
+\usepackage{hyperref}
 
 \usetkzobj{all}
 \usetikzlibrary{shapes,arrows}
@@ -91,13 +92,13 @@ text centered, rounded corners, minimum height=2em]
 \end{center}
 
 %%%%%%%%%%%% SET AUTHOR NAMES AND AFFILIATIONS %%%%%%%%%%%%
-\affiliatedauthor{Noel Brownback}{The University of Texas at Austin}
-\affiliatedauthor{Anthony Carreon}{The University of Texas at Austin}
-\affiliatedauthor{Shayer Hassan}{The University of Texas at Austin}
-\affiliatedauthor{Eric Johnson}{The University of Texas at Austin}
-\affiliatedauthor{Colin Lewis}{The University of Texas at Austin}
-\affiliatedauthor{Mark Loveland}{The University of Texas at Austin}
-\affiliatedauthor{Umer Salman}{The University of Texas at Austin}
+\affiliatedauthor{Noel Brownback}{\vspace{-.5cm}}
+\affiliatedauthor{Anthony Carreon}{\vspace{-.5cm}}
+\affiliatedauthor{Shayer Hassan}{\vspace{-.5cm}}
+\affiliatedauthor{Eric Johnson}{\vspace{-.5cm}}
+\affiliatedauthor{Colin Lewis}{\vspace{-.5cm}}
+\affiliatedauthor{Mark Loveland}{\vspace{-.5cm}}
+\affiliatedauthor{Umer Salman}{\vspace{-.5cm}}
 \affiliatedauthor{Ethan Starr}{The University of Texas at Austin}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -154,7 +155,9 @@ text centered, rounded corners, minimum height=2em]
 	\end{figure}
 
 	\subsection*{Yearly Milestones}
+
 	2017 - Have a working bot, with computer vision software in working or nearly working
+
 	2018 - Continue development of computer vision, develop a computational game strategy through creation of simulations of the motion of Roombas, tweak the physique of the drone for better flight control and stability
 
 
@@ -213,15 +216,16 @@ text centered, rounded corners, minimum height=2em]
 
 
 \section*{Payload}
-	The drone has been designed to carry all the necessary GNC sensors, 2D LiDAR, and array of cameras and 3 Nvidia Jetson TX2s. In addition the drone carries a telemetry radio, kill switch, and RC receiver in order to carry out safe flight.
+	The drone has been designed to carry all the necessary GNC sensors, 2D LiDAR, and an array of cameras and 3 Nvidia Jetson TX2s. In addition the drone carries a telemetry radio, kill switch, and RC receiver in order to carry out safe flight.
 	\subsection*{Sensor Suite}
 		\subsubsection*{GNC Sensors}
-			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter are a downwards-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of our flight control board, the Pixhawk 2.
+			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter are: a downwards-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of our Pixhawk 2 flight control board.
 
 			The 1D LiDAR module used is the LiDAR-lite v3 from Garmin. This one dimensional sensor is directed downwards and provides data that is used to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring distance travelled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and the maneuvering of the quadcopter.
 
 		\subsubsection*{Mission Sensors}
-			For the goal of completing Mission 7 the drone must be able to detect Roombas and obstacles. The quadcopter is equipped with a single downward facing camera, four outward facing cameras, and a two-dimensional plane LiDAR sensor for obstacle avoidance.
+			For the goal of completing Mission 7 the drone must be able to detect Roombas and obstacles. The quadcopter is equipped with a single downward facing camera and four outward facing cameras for image recognition, as well as a two-dimensional plane LiDAR sensor for obstacle avoidance.
+
 			The singular bottom camera is a Logitech C210 webcam. This webcam is used for Roomba detection and tracking the targeted Roomba for autonomous interaction.For the four peripheral cameras are Logitech 960 C270. These are used to recognize and track the Roombas around the playing field. These five webcams provides enough information allowing the drone to incorporate the recognized Roombas into the strategy of the autonomous system.
 			The 2D LiDAR sensor is the SWEEP sensor by Scanse. This is a single LiDAR that rotates to provide a full x-y plane view inline with the z position of the drone for obstacle detection. We chose to use this for obstacle detection rather than four separate LiDARs or webcams to save on computing power.
 
@@ -269,6 +273,7 @@ text centered, rounded corners, minimum height=2em]
 
 			A big pitfall in this model is that no distortion from the camera lens is accounted for; these effects are still being investigated.
 
+			\pagebreak
 				\textbf{Transformation}:
 
 				Pixel given from YOLO: $PIX$
