@@ -328,10 +328,10 @@ text centered, rounded corners, minimum height=2em]
 
 		CR is the correction vector formulated from the corner detection vision algorithm. EKFdronePose is the position of the drone queried from the Pixhawk. R(3) is the rotation matrix about the third axis. GymOffset is the direction of the 2 axis defined during the startup sequence before flight. The new coordinate in the gym frame is passed off to the strategy node as data to be acted on.
 	\subsection*{Threat Avoidance}
-		Our avoidance system takes data from a 2d LiDAR that is used to identify the obstacle Roombas. This data is passed and the Strategy node uses this data to weight possible movements negatively based on their relative position to the target Roombas. The Control node also will use the data, and in the event an obstacle robot is within 1.5 [m] will issue a waypoint opposite of the minimum vector.
+		Our avoidance system takes data from a 2D LiDAR that is used to identify the obstacle Roombas. This data is passed and the Strategy node uses this data to weigh possible movements negatively based on their relative position to the target Roombas. The Control node also will use the data, and in the event an obstacle robot is within 1.5 [m] will issue a waypoint opposite of the minimum vector.
 
 	\subsection*{Communications}
-		On the Jetsons data is passed between software nodes via ROS. Data in between our multiple Jetsons is passed via ros messages through direct ethernet connections. Commands to flight commuter are passed via serial connection with data encoded in MAVLINK messages.
+		On the Jetsons, data is passed between software nodes via ROS. Data in between our multiple Jetsons is passed via ros messages through direct ethernet connections. Commands to the flight computer are passed via serial connection with data encoded in MAVLINK messages.
 
 
 	\subsection*{Power Management System}
