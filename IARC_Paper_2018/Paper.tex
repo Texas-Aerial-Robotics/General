@@ -119,25 +119,26 @@ text centered, rounded corners, minimum height=2em]
 	\begin{center}
 	\begin{tikzpicture}[node distance = 1.5cm and 8cm, auto]
 		% Place nodes
-		\node [block] (battery) {Battery};
-		\node [block, below of=battery] (siphon) {Power siphon};
+		\node [block] (electronicsBattery) {Electonics Battery};
+		\node [block, right of=electronicsBattery, xshift=2.5cm] (motorBattery) {Motor Battery};
+		\node [block, below of=electronicsBattery] (siphon) {Power siphon};
 		\node [block, below of=siphon] (Pixhawk) {Pixhawk};
-		\node [block, below right of=battery, xshift=3cm, align=center] (PDB) {Power Distribution \\ Board};
-		\node [block, below left of=battery, xshift=-3cm, yshift=-.7cm] (Jetson) {Nvidia Jetson TX2s};
+		\node [block, below right of=electronicsBattery, xshift=3cm, yshift=-.5cm, align=center] (PDB) {Power Distribution \\ Board};
+		\node [block, below left of=electronicsBattery, xshift=-3cm, yshift=-.7cm] (Jetson) {Nvidia Jetson TX2s};
 		\node [block, right of=Pixhawk, xshift=2.6cm] (ESCs) {ESCs};
 		\node [block, below right of=ESCs, xshift=.5cm] (Motors) {Motors};
-		\node [block, below right of=Jetson] (Camera) {Cameras};
-		\node [block, below left of=Jetson] (2dLidar) {2D LiDAR};
+		\node [block, below right of=Jetson, yshift=-.5cm] (Camera) {Cameras};
+		\node [block, below left of=Jetson, yshift=-.5cm] (2dLidar) {2D LiDAR};
 		\node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
 		\node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
 		\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LiDAR) {LiDAR};
 		\node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
 		% Draw edges
-		\path [line] (battery) -- (siphon);
+		\path [line] (electronicsBattery) -- (siphon);
 		\path [line] (siphon) -- (Pixhawk);
-		\path [line] (battery) -- (PDB);
+		\path [line] (motorBattery) -- (PDB);
 		\path [line] (PDB) -- (ESCs);
-		\path [line] (battery) -- (Jetson);
+		\path [line] (electronicsBattery) -- (Jetson);
 		\path [line, dashed] (Camera) -- (Jetson);
 		\path [line, dashed] (2dLidar) -- (Jetson);
 		\path [line, dashed] (Flow) -- (Pixhawk);
@@ -148,7 +149,7 @@ text centered, rounded corners, minimum height=2em]
 		\path [line, dashed] (Pixhawk) -- (ESCs);
 		\path [line] (ESCs) -- (Motors);
 	\end{tikzpicture}
-	\caption*{Flowchart of quadcopter electronics \\ \tiny *Solid arrows indicate power while dashed lines indicate power+data}
+	\caption*{Flowchart of quadcopter electronics \\ \scriptsize *Solid arrows indicate power while dashed lines indicate power+data}
 	\end{center}
 	\end{figure}
 
