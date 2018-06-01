@@ -152,7 +152,7 @@ text centered, rounded corners, minimum height=2em]
 	\end{center}
 	\end{figure}
 
-	\subsection{Yearly Milestones}
+	\subsection*{Yearly Milestones}
 	2017 - Have a working bot, with computer vision software in working or nearly working
 	2018 - Continue development of computer vision, develop a computational game strategy through creation of simulations of the motion of Roombas, tweak the physique of the drone for better flight control and stability
 
@@ -345,13 +345,17 @@ text centered, rounded corners, minimum height=2em]
 			Max continuous Amp draw ($A$) = Battery capacity ($Ah$) $*$ Discharge rate ($C$)
 		\end{center}
 
-		To save on weight and space, we chose a 10C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 25 A and maximum practical current draw of 19.4 A required by the motors. The 10000 mAh battery with a 10C discharge rate gives us a maximum continuous current draw of 100 A, matching the limit of the motors.
+		To save on weight and space, we chose a 10C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 25 [A] and maximum practical current draw of 19.4 [A] required by the motors. The 10000 [mAh] battery with a 10C discharge rate gives us a maximum continuous current draw of 100 [A], matching the limit of the motors.
 
-		The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above-10 minute flight times at speeds below 15 mph
+		The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above-10 minute flight times at speeds below 15 [mph]
 
-		INSERT GRAPH
+		\begin{figure}[!htbp]
+			\begin{center}
+				\includegraphics[width=0.75\textwidth]{powerGraph}
+			\end{center}
+		\end{figure}
 
-		As for the 2000 mAh 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 mAh was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
+		As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 [mAh] was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
 
 
 \section*{Operations}
