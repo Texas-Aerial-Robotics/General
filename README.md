@@ -4,4 +4,4 @@ Included here are documents for Texas Aerial Robotics, a team out of UT Austin c
 
 See our 2017 paper here: https://raw.githubusercontent.com/Texas-Aerial-Robotics/IARC-GeneralDocs/master/IARC_Paper_2017/TexasAerialRobotics_Paper2017.pdf
 
-See our 2018 paper here: https://raw.githubusercontent.com/Texas-Aerial-Robotics/IARC-GeneralDocs/master/IARC_Paper_2018/TexasAerialRobotics_Paper2018.pdf
+See our 2018 paper here: https://raw.githubusercontent.com/Texas-Aerial-Robotics/IARC-GeneralDocs/master/IARC_Paper_2018/Paper.pdf
