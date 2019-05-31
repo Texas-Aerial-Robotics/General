@@ -92,13 +92,13 @@ text centered, rounded corners, minimum height=2em]
 \end{center}
 
 %%%%%%%%%%%% SET AUTHOR NAMES AND AFFILIATIONS %%%%%%%%%%%%
-\affiliatedauthor{Umer Salman, Noel Brownback, Mario Gonzalez}{The University of Texas at Austin}
+\affiliatedauthor{Umer Salman, Noel Brownback, Eric Johnson, Mario Gonzalez}{The University of Texas at Austin}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-	Texas Aerial Robotics has constructed a custom quadrotor aircraft for the fulfillment of the International Aerial Robotics Competition Mission 8. A combination of lightweight materials and powerful propulsion optimizes flight time, while standardized flight control systems supported by a massive community enables customization and adaptation to the mission at hand. This includes the integration of a multitude of sensors that enhance environmental awareness and allow for the aiding of people to analyze and interact with an environment. This is done through homebrewed QR code decoding algorithms and the shared computing power onboard the multiple aircrafts. Safe development has been assured by strategic selection of components, thorough vetting of software in Software in the Loop simulation, and robust testing procedures in secure areas.
+	Texas Aerial Robotics has constructed a custom quadrotor aircraft system for the fulfillment of the International Aerial Robotics Competition Mission 8. A combination of lightweight materials and powerful propulsion optimizes flight time, while standardized flight control systems supported by a massive community enables customization and adaptation to the mission at hand. This includes the integration of a multitude of sensors that enhance environmental awareness and allow for the aiding of people to analyze and interact with an environment. This is done through homebrewed QR code decoding algorithms and the shared computing power onboard the multiple aircrafts. Safe development has been assured by strategic selection of components, thorough vetting of software in Software in the Loop simulation, and robust testing procedures in secure areas.
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -107,7 +107,7 @@ text centered, rounded corners, minimum height=2em]
 \section*{INTRODUCTION}
 	Previous aerial robotics missions have always allowed for GPS or set navigation points that allowed for constant locational awareness for the drone. Location data is important to any mission, as telemetry prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical telemetry as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized "natural" fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
 
-	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an "Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras" to create maps of the arena while in flight and use that data in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. The drone is also built with safety for a plethora of other objects, containing man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
+	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an "Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras" to create maps of the arena while in flight and use that data in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. TAR implements the "humanized" control aspect of the system through voice control using an Android app that connects to all of the air vehicles. The drones are also built with safety features for a plethora of other objects that may be on the field through its man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
 
 	\begin{figure}[!htbp]
 		\begin{center}
@@ -116,16 +116,16 @@ text centered, rounded corners, minimum height=2em]
 				\node [block, below of=battery] (siphon) {Power siphon};
 				\node [block, below of=siphon] (Pixhawk) {Pixhawk};
 				\node [block, below right of=battery, xshift=3cm, yshift=-.5cm, align=center] (PDB) {Power Distribution \\ Board};
-				\node [block, below left of=battery, xshift=-3cm, yshift=-.7cm] (Jetson) {Nvidia Jetson TX2};
+				\node [block, below left of=battery, xshift=-3cm, yshift=-.5cm] (Jetson) {Nvidia Jetson TX2};
 				\node [block, right of=Pixhawk, xshift=2.6cm] (ESCs) {ESCs};
 				\node [block, below right of=ESCs, xshift=.5cm] (Motors) {Motors};
-				\node [block, below right of=Jetson, yshift=-.5cm] (StereoCamera) {ORBSLAM stereo camera};
-				\node [block, below of=Jetson, yshift=-.5cm] (DownCamera) {Downward camera};
-				\node [block, below left of=Jetson, yshift=-.5cm] (Sonars) {4 sonar distance sensors};
-				\node [block, below right of=Pixhawk, yshift=-1cm] (Flow) {PX4FLOW};
-				\node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1cm] (Spektrum) {Spektrum controller};
-				\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1cm] (LiDAR) {Downward rangefinder (ToF)};
-				\node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1cm] (Telemetry) {Ground Telemetry};
+				\node [block, below right of=Jetson, yshift=-.5cm, align=center] (StereoCamera) {ORBSLAM \\ stereo camera};
+				\node [block, below of=Jetson, xshift=-2cm, yshift=-1.1cm, align=center] (DownCamera) {Downward camera};
+				\node [block, xshift=-2cm, yshift=-.2cm, below left of=Jetson, align=center] (Sonars) {4 sonar \\ distance sensors};
+				\node [block, below right of=Pixhawk, yshift=-1.2cm] (Flow) {PX4FLOW};
+				\node [block, below right of=Pixhawk, xshift=3.5cm, yshift=-1.2cm] (Spektrum) {Spektrum controller};
+				\node [block, below left of=Pixhawk, xshift=-.5cm, yshift=-1.2cm, align=center] (LiDAR) {Downward \\ LiDAR};
+				\node [block, below left of=Pixhawk, xshift=-3.5cm, yshift=-1.2cm, align=center] (Telemetry) {Ground \\ Telemetry};
 				% Draw edges
 				\path [line] (battery) -- (siphon);
 				\path [line] (siphon) -- (Pixhawk);
@@ -150,195 +150,111 @@ text centered, rounded corners, minimum height=2em]
 	\pagebreak
 	\subsection*{Yearly Milestones}
 
-	2019 - Have a working system, with localization of multiple drones working together to solve the QR code and communicate with the person through voice commands in working or nearly working state.
+	2019 - Have a working system, with localization and GPS-denied navigation of multiple drones. These drones should work together to solve the QR code and communicate with a person through an Android app that can transmit voice commands to the drones.
 
-	2020 - Finish all aspects of mission through more networking between the quadcopters, tweak the physique of the drone for better flight control and stability, have better communication between drones to know where enemy drones are at all times, add aesthetic design choices, and test for hours in gyms in as many conditions as possible, 
+	2020 - Finish all aspects of mission through more networking between the quadcopters, tweak the physique of the drone for better flight control and stability, have better communication between drones to know where enemy drones are at all times, add aesthetic design choices, and test for hours in gyms in as many conditions as possible. 
 
 
 \section*{AIR VEHICLE}
 	\subsection*{Propulsion and Lift System}
-			The vehicle utilizes an y axis symmetrical quad-rotor system. This H-frame provides a stable quadcopter for a smaller overall package while maintaining plenty of room for electronics. The frame is lifted by four T-Motor MN2212 KV920-V2.0 motors. These motors provide 1.8 [kg] of thrust per motor at 100\% throttle when paired with a 4-cell battery and 9.5 [in] propellers for total 7.2 [kg] of thrust. This is necessary for our 3.15 [kg] weight to maintain a 2.2 thrust-to-weight ratio, ideal for battery life and flight time.
+			The vehicle utilizes an y axis symmetrical quad-rotor system. This H-frame provides a stable quadcopter for a smaller overall package while maintaining plenty of room for electronics. The frame is lifted by four T-Motor MN2212 KV920-V2.0 motors. These motors provide
+			------------fix these numbers---------- 1.8 [kg] of thrust per motor at 100\% throttle when paired with a 4-cell battery and 9.5 [in] propellers for total 7.2 [kg] of thrust. This is necessary for our 3.15 [kg] weight to maintain a 2.2 thrust-to-weight ratio, ideal for battery life and flight time.
 
 			The propellers used with the motors are 9.5 [in] long and made of plastic. These T-Motor propellers provide excellent precision, durability, and efficiency. The rotors are placed to counter-rotate for flight stability and to retain a one-to-one ratio of propellers to motors.
+	\subsection*{Power Management System}
+The quadcopter uses a 10000 [mAh] 4S 10C LiPo battery and a 2000 [mAh] 3S 15C LiPo battery for power. The 10000 [mAh] 4S 10C LiPo is used to power our ESCs and Motors. With 4 T-Motor U3 K700 motors running at close to the ideal 50\% throttle, a 4 Cell battery was necessary to reach the 1800 [grams] of thrust per motor needed for hovering flight. The 2000 [mAh] 3S 15C LiPo will power the flight control board and Jetson compute units.
+\begin{center}
+	$T_{min} = \frac{\text{Battery power}(AH) * 60}{\text{Total current drawn by motors}}$
+\end{center}
 
-	\subsection*{Guidance, Navigation, and Control}
-		\subsubsection*{Stability Augmentation System}
-			Our system builds off of the robust open source project ArduCopter. ArduCopter, which runs on the Pixhawk, controls the stability of the drone by taking in data from the IMU, compass, altitude ToF, and the optical flow sensor. The ArduCopter flight stack is maintained by hundreds of developers from around the world and the software is deployed on thousands of commercial and recreational drones. The vast community of developers and users ensures refined controls code with lots of features.
+Assuming an average throttle of 65\% for maneuvering, we see a 9 A current draw from each motor, and with a 10 Ah battery, that provides us with 16 minutes of flight time with minimal maneuvering and height change. This gives us plenty of headroom for more intense altitude and positioning changes, which will allow us to move more quickly during the competition, a valuable asset with the given time limitation.
+\begin{center}
+	Max continuous Amp draw ($A$) = Battery capacity ($Ah$) $*$ Discharge rate ($C$)
+\end{center}
 
+To save on weight and space, we chose a 10C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 25 [A] and maximum practical current draw of 19.4 [A] required by the motors. The 10000 [mAh] battery with a 10C discharge rate gives us a maximum continuous current draw of 100 [A], matching the limit of the motors.
 
-		\subsubsection*{Navigation}
-			We have made slight modifications to the ArduCopter firmware, which allow us to set the EKF origin. This has been done to make our drone capable of navigating in GPS denied environments. For general waypoint navigation, the drone utilizes the ArduCopter EKF that takes in data from the IMU, compass, altitude ToF, and the optical flow sensor. The EKF position is then queried via mavros so that our controls code can use our position to make intelligent decisions. In addition, the controls node takes in data from computer vision and the sonar sensors. The controls node determines a waypoint and mode, then does a sanity check on the waypoint before publishing the waypoint until the drone has reached its destination. Over time, the EKF will have some error in comparison to reality. However, using ORBSLAMM, an open-source version of ORBSLAM that contains multimapping, we are able to combat this by correcting the maps through physical objects (which will not be moving), which is then used to correct the EKF. 
+The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 10 minute flight times at speeds below 15 [mph].
 
-		\begin{figure}[!htbp]
-			\begin{center}
-				\includegraphics[width=0.75\textwidth]{system}
-				\caption*{Overview of control system}
-			\end{center}
-		\end{figure}
+%		\begin{figure}[!htbp]
+%			\begin{center}
+%				\includegraphics[width=0.75\textwidth]{powerGraph}
+%			\end{center}
+%		\end{figure}
+
+As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-Motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 [mAh] was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
+
+	\subsection*{Flight Control System}
+		\subsubsection*{Navigation/State Estimation System}
+		
+			Our system builds off of the robust open source project ArduCopter. ArduCopter, which runs on the Pixhawk, controls the stability of the drone by taking in data from the IMU, compass, altitude ToF, and the optical flow. The ArduCopter flight stack is maintained by hundreds of developers from around the world and the software is deployed on thousands of commercial and recreational drones. The vast community of developers and users ensures refined controls code with lots of features.
+
+			We have made slight modifications to the ArduCopter firmware, which allow us to set the EKF origin. This has been done to make our drones capable of navigating in GPS denied environments. For general waypoint navigation, the drones utilize the ArduCopter EKF that takes in data from the sensors listed above, including the optical flow, compass, and IMU. The EKF position is then queried via mavros so that our controls code can use our position to make intelligent decisions. Additionally, our drones use ORBSLAM running on the Jetson to provide localization data in flight to augment the data from the optical flow sensor while in areas where the ground does not have a textured surface. After those localization and navigation sensors, the controls node also takes in data from the sonar sensors. The controls node determines a waypoint and mode, then does a sanity check on the waypoint before publishing the waypoint until the drone has reached its destination. Over time, the EKF will have some error in comparison to reality. However, using ORBSLAMM, an open-source version of ORBSLAM that contains multimapping, we are able to combat this by correcting the maps through visuals of physical objects (which will not be moving), which is then used to correct the EKF. 
+			
+		\subsubsection*{Attitude/Position Control System}
+		
+			Another aspect of navigating in a GPS-denied is concrete information on our position. Using a Teraranger One Time of Flight sensor from Terabee, our drones are able to know their exact altitude. This sensor was chosen due to its extremely light weight over other LiDAR options. This communicates over I2C directly to the Pixhawk where ArduCopter uses that information in the EKF. 
+			
+			The position control aspect is handled through ORBSLAM running on the Jetson which is then fed into ArduCopter on the Pixhawk. The stereo camera in the front of the aircraft allows visual and depth information of the objects on the field and is used for our position. Additionally, ORBSLAM can potentially fail to get accurate tracking of objects if the drone translates too quickly. This is augmented through the optical flow sensor, which, while not as useful on the non-textured surface should at least ensure that the drone does not lose control. 
+
+			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter include a downward-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of the Pixhawk 2 flight control board.
+
+			The 1D LiDAR module used is a Time of Flight (ToF) sensor named the Teraranger One. This one-dimensional sensor is directed downward and provides data to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring the distance traveled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and maneuvering of the quadcopter.
+
+%		\begin{figure}[!htbp]
+%			\begin{center}
+%				\includegraphics[width=0.75\textwidth]{system}
+%				\caption*{Overview of control system}
+%			\end{center}
+%		\end{figure}
 
 		\subsubsection*{Flight Termination System}
 			We will be using ArduCopter's EmergencyStop to act as our killswitch. In the event of catastrophic failure, the safety operator can send the kill signal, and all power will immediately be cut from the drone's ESCs, and in turn, the motors.
 
 
-\section*{PAYLOAD}
+\section*{MISSION PACKAGE}
 	The drone has been designed to carry all the necessary GNC sensors, an array of sonar sensors, a stereo camera, a downward camera, and a Nvidia Jetson TX2. In addition, the drone carries a telemetry radio, WiFi antennas, and an RC receiver in order to carry out safe flight.
-	\subsection*{Sensor Suite}
-		\subsubsection*{GNC Sensors}
-			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter include a downward-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of the Pixhawk 2 flight control board.
+	\subsection*{Perception System}
+		\subsubsection*{Target Identification and Behavior}
+			For target identification and behavior, the drones fly to defined waypoints where the quadrants of the QR codes are located. Computer vision begins to process the quadrant that is in view. Through our algorithm that uses the inherent features of QR codes, the drone is able to narrow down 
+			
+			
+			For target identification, the drone carries four Logitech C270 USB webcams and one Logitech C210 USB webcam. One of the cameras is located at the bottom of the drone and faces straight downward. The other four cameras are mounted on the bottom side of each arm facing outward. All five cameras are mounted for identifying as many target Roombas surrounding the drone as possible in order to send their coordinates to the strategy node.
+			
+			There are two main objectives that need to be completed to successfully relay target information to the strategy node. The first objective is to take in the raw video data and detect the target Roombas so that pixel numbers of the centroids of the Roombas in the frame can be sent as output. The second objective is to take the pixel numbers of the centroids of the detected Roombas as input, and then output x and y coordinates relative to the drone using a coordinate transformation and the known height and orientation of the camera with respect to the floor.
+			
+			In order to accomplish the first objective, an open source software package developed by Joseph Redmon called YOLO (You Only Look Once) is used. More specifically, the TinyYolo version of YOLO was elected to be used since it is lighter and can obtain higher framerates. YOLO is a neural network that can identify user-defined objects once it has been trained. After training the neural network by feeding in approximate 2000 photos of the target Roombas (with the Roombas identified manually), YOLO can reliably identify target Roombas in real time.
 
-			The 1D LiDAR module used is a Time of Flight (ToF) sensor named the Teraranger One. This one-dimensional sensor is directed downward and provides data to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring the distance traveled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and maneuvering of the quadcopter.
+		\subsubsection*{Threat Identification and Behavior}
+			Our avoidance system takes data from a 2D LiDAR that is used to identify the obstacle Roombas. This data is passed and the strategy node uses this data to weigh possible movements negatively based on their relative position to the obstacle Roombas. The controls node also will use the data, such as in the event an obstacle robot is within 1.5 [m], in which case controls node will issue a waypoint opposite of the minimum vector.
 
-		\subsubsection*{Mission Sensors}
 			For completion of Mission 8, the drone must be able to detect the QR code and avoid obstacles, both moving and non-moving. The quadcopter is equipped with a single downward facing camera for reading the quadrant of the QR code. A stereo camera is used for ORBSLAMM for localization. There is also an array of sonar sensors for obstacle avoidance.
 
 			The singular bottom camera is a ELP webcam. This webcam is used for reading the QR code quadrant. The stereo camera in front is also an ELP camera. These cameras were chosen for their very light weight while still allowing adjustment of exposure and other parameters to better read a QR code on an iPad. 
 			The array of sonar sensors contains 4 MAXBOTICS 7m I2C sonars. These allow the drone to detect objects on the sides the quadcopter intends to move in. We chose to use this for obstacle detection rather than a 2D LiDAR or webcams to save on weight, space, and computing power. Sonar sensors are very tried and true. Additionally, we opted for sonar rather than radar as radar has a harder time picking up smaller objects, like a drone. 
+			
+		\subsubsection*{Gesture Identification and Behavior}
+			Android app, PocketSphinx. 
 
-
-		\subsection*{Target Identification}
-			For target identification, the drone carries four Logitech C270 USB webcams and one Logitech C210 USB webcam. One of the cameras is located at the bottom of the drone and faces straight downward. The other four cameras are mounted on the bottom side of each arm facing outward. All five cameras are mounted for identifying as many target Roombas surrounding the drone as possible in order to send their coordinates to the strategy node.
-
-			There are two main objectives that need to be completed to successfully relay target information to the strategy node. The first objective is to take in the raw video data and detect the target Roombas so that pixel numbers of the centroids of the Roombas in the frame can be sent as output. The second objective is to take the pixel numbers of the centroids of the detected Roombas as input, and then output x and y coordinates relative to the drone using a coordinate transformation and the known height and orientation of the camera with respect to the floor.
-
-			In order to accomplish the first objective, an open source software package developed by Joseph Redmon called YOLO (You Only Look Once) is used. More specifically, the TinyYolo version of YOLO was elected to be used since it is lighter and can obtain higher framerates. YOLO is a neural network that can identify user-defined objects once it has been trained. After training the neural network by feeding in approximate 2000 photos of the target Roombas (with the Roombas identified manually), YOLO can reliably identify target Roombas in real time. An example is displayed below:
-
-			%\begin{figure}[!htbp]
-			%	\begin{center}
-			%		\includegraphics[width=0.75\textwidth]{roomba}
-			%	\end{center}
-			%\end{figure}
-
-			After YOLO outputs the pixel locations of each identified target Roomba, the final objective is to transform these pixel coordinates into x-y coordinates relative to the drone. In addition to the pixel coordinate ($PIX \#$), the other knowns are height ($z$), camera rotation angle relative to downward facing ($\theta$), and field of view ($\phi$), as well as total pixels in $x$ and $y$ ($PIX\_MAX$). Here is a diagram to illustrate these knowns below:
-
-			\begin{tikzpicture}[scale=3]
-				\coordinate [label=left:$X$] (X) at (-1.5cm,-1cm);
-				\coordinate [label=right:$Y$] (Y) at (1.5cm,-1cm);
-				\coordinate [label=above:$Z$] (Z) at (-1.5cm,1cm);
-				\coordinate (phi) at (.1cm,-1cm);
-				\coordinate (theta) at (-.75cm,-1cm);
-				\draw[<->] (Z) -- node[below] {} (X) -- node[right] {} (Y);
-				\draw[dashed](Y) -- node[above left] {} (Z);
-				\draw[dashed] (Z) -- node[below] {} (phi);
-				\draw[dashed] (Z) -- node[below] {} (theta);
-				\tkzMarkRightAngle[draw=black](Z,X,Y)
-				\tkzDrawPoints[color=black,fill=white](X)
-				\tkzMarkAngle[size=1cm,color=cyan](X,Z,phi)
-				\tkzMarkAngle[size=1.5cm,color=cyan](theta,Z,Y)
-				\tkzLabelAngle[dist=1.6cm](theta,Z,Y){$\phi$}
-				\tkzLabelAngle[dist=1.1cm](X,Z,phi){$\theta$}
-			\end{tikzpicture}
-
-			\begin{spacing}{.2}
-			In order to transform this pixel coordinate into x-y coordinates relative to the drone, a few key assumptions made are that:
-
-				\begin{itemize}
-					\item The camera behaves as a pinhole model
-					\item Each pixel in the frame takes up an approximately equal fraction of the field of view
-				\end{itemize}
-
-			A big pitfall in this model is that no distortion from the camera lens is accounted for; these effects are still being investigated.
-
-			\pagebreak
-				\textbf{Transformation}:
-
-				Pixel given from YOLO: $PIX$
-
-				Pixel number of the center: $PIX\_CTR = \frac{PIX\_MAX}{2}$
-
-				Define $\psi$ as portion of angle from center image to pixel detected:
-
-				\begin{center}
-					$\psi = z * abs(\frac{PIX}{PIX\_MAX} * \phi - \frac{\phi}{2})$
-				\end{center}
-
-				To find the real coordinate ($REAL$) relative to the drone in the $X$ direction, There are two cases:
-
-						\tab If $PIX$ lies above the center pixel, that is $PIX > PIX\_CTR$, Then:
-						\begin{center}
-							$REAL = z * tan(\theta + \frac{\psi}{2})$
-						\end{center}
-						\tab If $PIX$ lies below the center pixel, that is $PIX < PIX\_CTR$, Then:
-						\begin{center}
-							$REAL = z * tan(\theta - \frac{\psi}{2})$
-						\end{center}
-				There are two cases to finding the real coordinate ($REAL$) relative to the drone in the $Y$ direction:
-
-						\tab If $PIX$ lies above the center pixel, that is $PIX > PIX\_CTR$
-						\begin{center}
-							$REAL = z * tan(\theta - \frac{\psi}{2})$
-						\end{center}
-						\tab If $PIX$ lies below the center pixel, that is $PIX < PIX\_CTR$
-						\begin{center}
-							$REAL = z * tan(\theta + \frac{\psi}{2})$
-						\end{center}
-				This is different from the x only because top of frame is $1$ and bottom is $PIX\_MAX$, while in $X$ `top' of frame is $PIX\_MAX$ and bottom is $1$.
-			\end{spacing}
-
-		Once the coordinate X, Y in meters is found relative to the drone, it must be transformed into a coordinate that is in the `gym reference frame.' The gym reference frame is defined as a right-handed coordinate system starting in the bottom left-hand corner of the field where the green line meets the outer white line. This transformation is defined as follows:
-
-		\begin{center}
-			$yawAngle = currentHeading - GymOffset$
-		\end{center}
-		\begin{center}
-			$roombaPosGym = CR + EKFdronePose + R(3)(YawAngle)*roombaPosDrone$
-		\end{center}
-
-		\[
-		R(3) =
-			\begin{bmatrix}
-			cos(yawAngle) & -sin(yawAngle) & 0 \\
-			sin(yawAngle) & cos(yawAngle)  & 0 \\
-			0 & 0 & 1
-			\end{bmatrix}
-		\]
-
-		CR is the correction vector formulated from the corner detection vision algorithm. EKFdronePose is the position of the drone queried from the Pixhawk. R(3) is the rotation matrix about the third axis. GymOffset is the direction of the 2 axes defined during the startup sequence before flight. The new coordinate in the gym frame is passed off to the strategy node as data to be acted on.
-	\subsection*{Threat Avoidance}
-		Our avoidance system takes data from a 2D LiDAR that is used to identify the obstacle Roombas. This data is passed and the strategy node uses this data to weigh possible movements negatively based on their relative position to the obstacle Roombas. The controls node also will use the data, such as in the event an obstacle robot is within 1.5 [m], in which case controls node will issue a waypoint opposite of the minimum vector.
-
-	\subsection*{Communications}
+	\subsection*{Communications Systems}
 		On the Jetsons, data is passed between software nodes via ROS. Data in between our multiple Jetsons is passed via ROS messages through direct ethernet connections. Commands to the flight computer are passed via serial connection with data encoded in MAVLINK messages.
+		
+		Networking between drones handled through WiFi 2.4 GHz. 
 
-	\subsection*{Power Management System}
-		The quadcopter uses a 10000 [mAh] 4S 10C LiPo battery and a 2000 [mAh] 3S 15C LiPo battery for power. The 10000 [mAh] 4S 10C LiPo is used to power our ESCs and Motors. With 4 T-Motor U3 K700 motors running at close to the ideal 50\% throttle, a 4 Cell battery was necessary to reach the 1800 [grams] of thrust per motor needed for hovering flight. The 2000 [mAh] 3S 15C LiPo will power the flight control board and Jetson compute units.
-		\begin{center}
-			$T_{min} = \frac{\text{Battery power}(AH) * 60}{\text{Total current drawn by motors}}$
-		\end{center}
 
-		Assuming an average throttle of 65\% for maneuvering, we see a 9 A current draw from each motor, and with a 10 Ah battery, that provides us with 16 minutes of flight time with minimal maneuvering and height change. This gives us plenty of headroom for more intense altitude and positioning changes, which will allow us to move more quickly during the competition, a valuable asset with the given time limitation.
-		\begin{center}
-			Max continuous Amp draw ($A$) = Battery capacity ($Ah$) $*$ Discharge rate ($C$)
-		\end{center}
-
-		To save on weight and space, we chose a 10C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 25 [A] and maximum practical current draw of 19.4 [A] required by the motors. The 10000 [mAh] battery with a 10C discharge rate gives us a maximum continuous current draw of 100 [A], matching the limit of the motors.
-
-		The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 10 minute flight times at speeds below 15 [mph].
-
-		\begin{figure}[!htbp]
-			\begin{center}
-				\includegraphics[width=0.75\textwidth]{powerGraph}
-			\end{center}
-		\end{figure}
-
-		As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-Motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 [mAh] was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
-
+	\subsection*{Man/Machine Interface}
+		The drone has a DX7 RC controller interface for system checks and emergency situations. In addition, the flight controller can be monitored via a telemetry radio using Mission Planner. Our autonomous scripts must be initiated by an SSH connection to our Nvidia Jetsons.
 
 \section*{OPERATIONS}
 	\subsection*{Flight Preparations}
 		\subsubsection*{Checklist}
 			\begin{my_enumerate}
 				\item Check battery voltage (12.0-12.6V) and insert
-				\item Make sure LiDAR and PX4FLOW are not covered
-				\item Make sure that ESCs are plugged in to the right pins
-				\item Make sure prop guards are secure
+				\item Make sure LiDAR, PX4FLOW, and cameras are not covered
 				\item Make sure that the props are on in the correct direction (leading edge in)
-				\item Make sure that the props are not upside down
-				\item Make sure props are clear of any structures
-				\item Make sure Kill Switch is in off position
+				\item Make sure prop guards are secure
+				\item Make sure Kill Switch is in correct position
 				\item Power on controllers
-				\item Make sure TELEM2 is unplugged
-				\item Plug in power loop
-				\item Turn Kill Switch to on position
 				\item Make sure ground station has good telemetry
 				\item Verify critical sensors are giving good data
 				\item Plug in TELEM2
@@ -348,16 +264,14 @@ text centered, rounded corners, minimum height=2em]
 				\item Hold safety button
 				\item Mode switch to Autonomous
 			\end{my_enumerate}
-	\subsection*{Man/Machine Interface}
-		The drone has a DX7 RC controller interface for system checks and emergency situations. In addition, the flight controller can be monitored via a telemetry radio using Mission Planner. Our autonomous scripts must be initiated by an SSH connection to our Nvidia Jetsons.
 
 \section*{RISK REDUCTION}
-	\subsection*{Vehicle Status}
-		\subsubsection*{Shock/Vibration Isolation}
-		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our first drone last year, flight logs from the Pixhawk confirmed that vibration on the built quadcopter was well within recommended amounts. The team believes there is no need to have landing shocks, as the sophisticated Arducopter flight stack has logic to recognize landing. Because of this, nominal landings will not interfere with the guidance or navigation of the drone.
-
+	\subsection*{Vehicle Design}
 		\subsubsection*{EMI/RFI Solutions}
 		The Arducopter flight stack helps keep interference risk down through the EMI calibration on the Pixhawk. The calibration calculates the magnetic interference correction by formulating a function of the magnetic interference based on the power setting of the motors.
+
+		\subsubsection*{Shock/Vibration Isolation}
+		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our first drone last year, flight logs from the Pixhawk confirmed that vibration on the built quadcopter was well within recommended amounts. The team believes there is no need to have landing shocks, as the sophisticated Arducopter flight stack has logic to recognize landing. Because of this, nominal landings will not interfere with the guidance or navigation of the drone.
 
 
 	\subsection*{Safety}
@@ -375,7 +289,7 @@ text centered, rounded corners, minimum height=2em]
 		Overall, modeling our software behavior within a Gazebo simulation greatly expedited the development process. By standardizing the simulation setup, tests could be conducted on multiple computers at any time, instead of requiring the sluggish process of updating, calibrating, and flying the physical drone. Additionally, simulation protected the hardware from the accidents and unintentional flight behavior inherent to prototype software.
 
 
-	\subsection*{Testing}
+	\subsection*{Physical Testing}
 		Simulation, however, can only prove so much. Eventually, refined software was tested on a model testbed or on the drone itself. Much of the computer vision and general software integration was developed on this testbed, where performance could be verified with the same sensors and computational hardware as the aircraft before full-scale deployment. Even strategy nodes could be tested on this platform, with waypoint predictions vetted before being deployed to the aircraft.
 
 		Flight tests, expectedly, require a specific setting. Generally, Texas Aerial Robotics tested on the roof of the Aerospace building on campus at The University of Texas at Austin. This controlled environment bore witness to hardware implementation throughout our design process, from original flight readiness to early autonomy.
