@@ -182,17 +182,15 @@ Assuming an average throttle of 65\% for maneuvering, we see a 4 A current draw 
 
 To save on weight and space, we chose a 25C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 100 [A] and maximum practical current draw of 29.6 [A] required by the motors. The Pixhawk flight controller and Jetson TX2 compute unit will be powered of the same 4000 [mAh] battery. Together, they contribute a maximum practical current draw of 2.2 [A]. The 4000 [mAh] battery with a 25C discharge rate gives us a maximum continuous current draw of 100 [A], well exceeding the limit of the motors and computing units combined.
 
-The eCalc online tool was used to validate our calculations, and as seen by the generated graph, there should be no issue reaching 8+ minute flight times at speeds below 15 [mph].
+The eCalc online tool was used to validate our calculations, and as seen by the graph on the following page, there should be no issue reaching flight times over 8 minutes at speeds below 15 [mph].
 
 		\begin{figure}[!htbp]
 			\begin{center}
-				\includegraphics[width=0.6\textwidth]{powerGraph}
+				\includegraphics[width=\textwidth]{powerGraph}
 			\end{center}
 		\end{figure}
 
 \pagebreak
-
-As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-Motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 [mAh] was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
 
 	\subsection*{Flight Control System}
 		\subsubsection*{Navigation/State Estimation System}
