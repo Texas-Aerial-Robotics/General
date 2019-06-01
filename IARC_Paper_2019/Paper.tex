@@ -165,24 +165,24 @@ text centered, rounded corners, minimum height=2em]
 
 \section*{AIR VEHICLE}
 	\subsection*{Propulsion and Lift System}
-			The vehicle utilizes an y axis symmetrical quad-rotor system. This H-frame provides a stable quadcopter for a smaller overall package while maintaining plenty of room for electronics. The frame is lifted by four T-Motor MN2212 KV920-V2.0 motors. These motors provide
-			------------fix these numbers---------- 1.8 [kg] of thrust per motor at 100\% throttle when paired with a 4-cell battery and 9.5 [in] propellers for total 7.2 [kg] of thrust. This is necessary for our 3.15 [kg] weight to maintain a 2.2 thrust-to-weight ratio, ideal for battery life and flight time.
+The vehicle utilizes an y axis symmetrical quad-rotor system. This H-frame provides a stable quadcopter for a smaller overall package while maintaining plenty of room for electronics. The frame is lifted by four T-Motor MN2212 KV920-V2.0 motors. These motors provide 0.92 [kg] of thrust per motor at 100\% throttle when paired with a 4-cell battery and 9.5 [in] propellers for total 3.68 [kg] of thrust. This is necessary for our 1.95 [kg] weight to maintain a thrust-to-weight ratio of 1.88, for battery life and flight time.
 
-			The propellers used with the motors are 9.5 [in] long and made of plastic. These T-Motor propellers provide excellent precision, durability, and efficiency. The rotors are placed to counter-rotate for flight stability and to retain a one-to-one ratio of propellers to motors.
+The propellers used with the motors are 9.5 [in] long and made of plastic. These T-Motor propellers provide excellent precision, durability, and efficiency. The rotors are placed to counter-rotate for flight stability and to retain a one-to-one ratio of propellers to motors.
+
 	\subsection*{Power Management System}
-The quadcopter uses a 10000 [mAh] 4S 10C LiPo battery and a 2000 [mAh] 3S 15C LiPo battery for power. The 10000 [mAh] 4S 10C LiPo is used to power our ESCs and Motors. With 4 T-Motor U3 K700 motors running at close to the ideal 50\% throttle, a 4 Cell battery was necessary to reach the 1800 [grams] of thrust per motor needed for hovering flight. The 2000 [mAh] 3S 15C LiPo will power the flight control board and Jetson compute units.
+The quadcopter uses a 4000 [mAh] 4S 25C LiPo battery for power. With 4 T-Motor MN2212 KV920-V2.0  motors running at close to 60\% throttle, a 4 Cell battery was necessary to reach the 480 [grams] of thrust per motor needed for hovering flight.
 \begin{center}
 	$T_{min} = \frac{\text{Battery power}(AH) * 60}{\text{Total current drawn by motors}}$
 \end{center}
 
-Assuming an average throttle of 65\% for maneuvering, we see a 9 A current draw from each motor, and with a 10 Ah battery, that provides us with 16 minutes of flight time with minimal maneuvering and height change. This gives us plenty of headroom for more intense altitude and positioning changes, which will allow us to move more quickly during the competition, a valuable asset with the given time limitation.
+Assuming an average throttle of 65\% for maneuvering, we see a 4 A current draw from each motor, and with a 4000 mAh battery, that provides us with 13 minutes of flight time with minimal maneuvering and height change. This gives us plenty of headroom for more intense altitude and positioning changes, which will allow us to move more quickly during the competition, a valuable asset with the given time limitation.
 \begin{center}
 	Max continuous Amp draw ($A$) = Battery capacity ($Ah$) $*$ Discharge rate ($C$)
 \end{center}
 
-To save on weight and space, we chose a 10C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 25 [A] and maximum practical current draw of 19.4 [A] required by the motors. The 10000 [mAh] battery with a 10C discharge rate gives us a maximum continuous current draw of 100 [A], matching the limit of the motors.
+To save on weight and space, we chose a 25C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 100 [A] and maximum practical current draw of 29.6 [A] required by the motors. The Pixhawk flight controller and Jetson TX2 compute unit will be powered of the same 4000 [mAh] battery. Together, they contribute a maximum practical current draw of 2.2 [A]. The 4000 [mAh] battery with a 25C discharge rate gives us a maximum continuous current draw of 100 [A], well exceeding the limit of the motors and computing units combined.
 
-The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 10 minute flight times at speeds below 15 [mph].
+The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 8 minute flight times at speeds below 15 [mph].
 
 %		\begin{figure}[!htbp]
 %			\begin{center}
