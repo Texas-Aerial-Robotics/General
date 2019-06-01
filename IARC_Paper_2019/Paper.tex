@@ -105,9 +105,9 @@ text centered, rounded corners, minimum height=2em]
 %%%%%%%%%%%%%%%%%%%%%% MAIN TEXT %%%%%%%%%%%%%%%%%%%%%%
 
 \section*{INTRODUCTION}
-	Previous aerial robotics missions have always allowed for GPS or set navigation points that allowed for constant locational awareness for the drone. Location data is important to any mission, as telemetry prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical telemetry as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized "natural" fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
+	Previous aerial robotics missions have always allowed for GPS or other external active position estimation that allowed for constant locational awareness. Location data is important to any mission, as proper state awareness prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical state data as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized "natural" fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
 
-	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an "Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras" to create maps of the arena while in flight and use that data in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. TAR implements the "humanized" control aspect of the system through voice control using an Android app that connects to all of the air vehicles. The drones are also built with safety features for a plethora of other objects that may be on the field through its man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
+	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an "Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras" to create maps of the arena in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together to create the maps. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. TAR implements the "humanized" control aspect of the system through voice control using an Android app that connects to all of the air vehicles. The drones are also built with safety features for a plethora of other objects that may be on the field through its man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
 
 	\begin{figure}[!htbp]
 		\begin{center}
@@ -148,12 +148,18 @@ text centered, rounded corners, minimum height=2em]
 	\end{figure}
 
 	\pagebreak
-	\subsection*{Yearly Milestones}
+	\subsection*{Texas Aerial Robotics Yearly Milestones}
 
-	2019 - Have a working system, with localization and GPS-denied navigation of multiple drones. These drones should work together to solve the QR code and communicate with a person through an Android app that can transmit voice commands to the drones.
+	\begin{itemize}
 
-	2020 - Finish all aspects of mission through more networking between the quadcopters, tweak the physique of the drone for better flight control and stability, have better communication between drones to know where enemy drones are at all times, add aesthetic design choices, and test for hours in gyms in as many conditions as possible. 
+		\item 2017 (Mission 7) - Have a working bot, with computer vision software in nearly working state
 
+		\item 2018 (Mission 7) - Continue development of computer vision, develop a computational game strategy through creation of simulations of the motion of Roombas, and tweak the physique of the drone for better flight control and stability
+
+		\item 2019 (Mission 8) - Complete a working system, with localization and GPS-denied navigation of multiple drones. These drones should work together to solve the QR code and communicate with a person through an Android app that can transmit voice commands to the drones.
+
+		\item 2020 (Mission 8) - Finish all aspects of mission through more networking and collaboration between the quadcopters, improve the drone for better flight control and overall size, have better communication between drones to know where enemy drones are at all times, add aesthetic design choices, and test for hours in gyms in as many conditions as possible.
+	\end{itemize}
 
 \section*{AIR VEHICLE}
 	\subsection*{Propulsion and Lift System}
@@ -186,20 +192,22 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 
 	\subsection*{Flight Control System}
 		\subsubsection*{Navigation/State Estimation System}
-		
-			Our system builds off of the robust open source project ArduCopter. ArduCopter, which runs on the Pixhawk, controls the stability of the drone by taking in data from the IMU, compass, altitude ToF, and the optical flow. The ArduCopter flight stack is maintained by hundreds of developers from around the world and the software is deployed on thousands of commercial and recreational drones. The vast community of developers and users ensures refined controls code with lots of features.
 
-			We have made slight modifications to the ArduCopter firmware, which allow us to set the EKF origin. This has been done to make our drones capable of navigating in GPS denied environments. For general waypoint navigation, the drones utilize the ArduCopter EKF that takes in data from the sensors listed above, including the optical flow, compass, and IMU. The EKF position is then queried via mavros so that our controls code can use our position to make intelligent decisions. Additionally, our drones use ORBSLAM running on the Jetson to provide localization data in flight to augment the data from the optical flow sensor while in areas where the ground does not have a textured surface. After those localization and navigation sensors, the controls node also takes in data from the sonar sensors. The controls node determines a waypoint and mode, then does a sanity check on the waypoint before publishing the waypoint until the drone has reached its destination. Over time, the EKF will have some error in comparison to reality. However, using ORBSLAMM, an open-source version of ORBSLAM that contains multimapping, we are able to combat this by correcting the maps through visuals of physical objects (which will not be moving), which is then used to correct the EKF. 
-			
+			Our system builds off of the robust open source project ArduCopter. ArduCopter, which runs on the Pixhawk, controls the stability and position control of the drone by taking in data from the IMU, compass, altitude ToF, and a position estimate generated from our optical flow sensor or ORB SLAM. The ArduCopter flight stack is maintained by hundreds of developers from around the world and the software is deployed on thousands of commercial and recreational drones. The vast community of developers and users ensures reliable controls code with lots of features.
+
+			We have made slight modifications to the ArduCopter firmware, which allow us to set the EKF origin from our GNC ROS node. This has been done to make our drones capable of navigating in GPS denied environments. For general waypoint navigation, the drones utilize the ArduCopter EKF that takes in data from the sensors listed above, including the optical flow, compass, and IMU. The EKF position is then queried via mavros so that our navigation code can use our position to make intelligent decisions. TAR has greatly improved ArduCopter’s GPS denied capabilities by integrating ORBSLAM into the ArduCopter EKF. The use of ORBSLAM allows the drone to navigate based on 3 dimensional visual features in the drones operating environment. ORBSLAM continuously builds a map of its environment and compares current local maps to its master. Because of this comparison algorithm, ORBSLAM is able to perform loop closure which is useful in negating any propagated error from the rate sensors.
+
+			In addition to the stability and position control from ArduCopter, TAR’s drone sports a navigation node, which executes our pathplaning algorithms developed for Mission 8. The navigation node determines a waypoint and mode, then does a sanity check on the waypoint before publishing the waypoint to ArduCopter until the drone has reached its destination.
+
 		\subsubsection*{Attitude/Position Control System}
-		
-			Another aspect of navigating in a GPS-denied is concrete information on our position. Using a Teraranger One Time of Flight sensor from Terabee, our drones are able to know their exact altitude. This sensor was chosen due to its extremely light weight over other LiDAR options. This communicates over I2C directly to the Pixhawk where ArduCopter uses that information in the EKF. 
-			
-			The position control aspect is handled through ORBSLAM running on the Jetson which is then fed into ArduCopter on the Pixhawk. The stereo camera in the front of the aircraft allows visual and depth information of the objects on the field and is used for our position. Additionally, ORBSLAM can potentially fail to get accurate tracking of objects if the drone translates too quickly. This is augmented through the optical flow sensor, which, while not as useful on the non-textured surface should at least ensure that the drone does not lose control. 
+
+			A crucial aspect of navigating in a GPS-denied is concrete information on our position. Using a Teraranger One Time of Flight sensor from Terabee, our drones are able to know their exact altitude. This sensor was chosen due to its extremely light weight over other LiDAR options. This communicates over I2C directly to the Pixhawk where ArduCopter uses that information in the EKF.
+
+			The position control aspect is handled through ORBSLAM running on the Jetson which is then fed into ArduCopter on the Pixhawk. The stereo camera in the front of the aircraft allows visual and depth information of the objects on the field. This information is used to formulate an estimate of the drone’s position based on the 3 dimensional visual features of the environment. In addition, these features are compared to features the drone has already seen in order to perform loop closure. Loop closure is then used to correct for propagated error accumulated from the drone’s rate sensors. No sensor or algorithm is foolproof. ORBSLAM has some limitations which limit the algorithms ability to generate position estimates. First, if the camera is moved too quickly, the deltas between frames is too large and ORBSLAM can lose tracking. This is mostly mitigated by limiting the drones flight velocity. The second limitation of ORBSLAM is the requirement of textures and 3D features. Both of these risks are low when operating in the Mission 8 arena, however, this is a flight critical system and the consequence of failure are catastrophic. TAR has opted to implement redundancy by attaching the PX4FLOW sensor to supplement ORBSLAM in the event of failure. While not as useful on the non-textured surface, it should at least ensure that the drone does not lose control.
 
 			The quadcopter uses eight sensors for flight control. The main sensors used for the navigation of the quadcopter include a downward-facing 1D LiDAR module, a PX4FLOW optical sensor, and the built-in sensors of the Pixhawk 2 flight control board.
 
-			The 1D LiDAR module used is a Time of Flight (ToF) sensor named the Teraranger One. This one-dimensional sensor is directed downward and provides data to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring the distance traveled and direction. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and maneuvering of the quadcopter.
+			The 1D LiDAR module used is a Time of Flight (ToF) sensor named the Teraranger One. This one-dimensional sensor is directed downward and provides data to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring the distance traveled and direction. As previously stated this sensor is a redundancy for ORBSLAM. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and maneuvering of the quadcopter.
 
 %		\begin{figure}[!htbp]
 %			\begin{center}
@@ -215,32 +223,27 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 \section*{MISSION PACKAGE}
 	The drone has been designed to carry all the necessary GNC sensors, an array of sonar sensors, a stereo camera, a downward camera, and a Nvidia Jetson TX2. In addition, the drone carries a telemetry radio, WiFi antennas, and an RC receiver in order to carry out safe flight.
 	\subsection*{Perception System}
+	For completion of Mission 8, the drone must be able to detect the QR code and avoid obstacles, both moving and non-moving. The quadcopter is equipped with a single downward facing camera for reading the quadrant of the QR code. A stereo camera is used for ORBSLAMM for localization. There is also an array of sonar sensors for obstacle avoidance.
+
 		\subsubsection*{Target Identification and Behavior}
-			For target identification and behavior, the drones fly to defined waypoints where the quadrants of the QR codes are located. Computer vision begins to process the quadrant that is in view. Through our algorithm that uses the inherent features of QR codes, the drone is able to narrow down 
-			
-			
-			For target identification, the drone carries four Logitech C270 USB webcams and one Logitech C210 USB webcam. One of the cameras is located at the bottom of the drone and faces straight downward. The other four cameras are mounted on the bottom side of each arm facing outward. All five cameras are mounted for identifying as many target Roombas surrounding the drone as possible in order to send their coordinates to the strategy node.
-			
-			There are two main objectives that need to be completed to successfully relay target information to the strategy node. The first objective is to take in the raw video data and detect the target Roombas so that pixel numbers of the centroids of the Roombas in the frame can be sent as output. The second objective is to take the pixel numbers of the centroids of the detected Roombas as input, and then output x and y coordinates relative to the drone using a coordinate transformation and the known height and orientation of the camera with respect to the floor.
-			
-			In order to accomplish the first objective, an open source software package developed by Joseph Redmon called YOLO (You Only Look Once) is used. More specifically, the TinyYolo version of YOLO was elected to be used since it is lighter and can obtain higher framerates. YOLO is a neural network that can identify user-defined objects once it has been trained. After training the neural network by feeding in approximate 2000 photos of the target Roombas (with the Roombas identified manually), YOLO can reliably identify target Roombas in real time.
+			For target identification and behavior, the drones fly to defined waypoints where the quadrants of the QR codes are located. Each quadcopter is equipped with a singular ELP webcam facing downward. This camera was chosen for its very light weight while still allowing adjustment of exposure and other parameters to better read a QR code on an iPad.
+
+			Once the QR code quadrant is in view, computer vision begins to process using our algorithm that uses the inherent features of QR codes. Any drone is able to narrow down the 4 digit combination to approximately 6 permutations that from only the bottom-right quadrant. The drones continue to scan the other sections of the QR code and piece together the combination. If the top-right quadrant is found, then the code is complete with only the top-right and bottom-right sections.
+
+			After the code has been identified, the quadcopters fly to positions on the field where the human would likely choose to heal and await other commands.
 
 		\subsubsection*{Threat Identification and Behavior}
-			Our avoidance system takes data from a 2D LiDAR that is used to identify the obstacle Roombas. This data is passed and the strategy node uses this data to weigh possible movements negatively based on their relative position to the obstacle Roombas. The controls node also will use the data, such as in the event an obstacle robot is within 1.5 [m], in which case controls node will issue a waypoint opposite of the minimum vector.
+			Our avoidance system takes data from an array of sonar sensors. These 4 MAXBOTICS 7m I2C sonars allow the drone to detect objects on the sides the quadcopter intends to move in. This data is passed to the navigation node, which uses this data to determine if an obstacle drone or a wall is within 1.5 [m], in which case the node will issue a waypoint opposite the detections. Edge cases and corner cases have also been accounted for, such as the case where an enemy drone pushes a helper drone against a wall. In this case, the drone will either rise or fall in altitude, depending on the distance from the ground. Each drone has its own array of sonar sensors, so even in the event of communication failures between quadcopters in the full system, each drone will continue to intelligently avoid dangerous situations.
 
-			For completion of Mission 8, the drone must be able to detect the QR code and avoid obstacles, both moving and non-moving. The quadcopter is equipped with a single downward facing camera for reading the quadrant of the QR code. A stereo camera is used for ORBSLAMM for localization. There is also an array of sonar sensors for obstacle avoidance.
+			Sonar sensors were chosen for obstacle detection rather than a 2D LiDAR or webcams to save on weight, space, and computing power. Sonar sensors are very tried and true. As we use I2C as our communication protocol for these sonars, adding or subtracting sensors to the array becomes trivial, with easy addition of more sonar sensors (up to a limit of 127) with very few modifications to the code, electrical systems, and/or hardware, aside from the physical mounting of the new sonars themselves. Additionally, sonar was picked over radar as radar has a harder time picking up smaller objects, like a drone.
 
-			The singular bottom camera is a ELP webcam. This webcam is used for reading the QR code quadrant. The stereo camera in front is also an ELP camera. These cameras were chosen for their very light weight while still allowing adjustment of exposure and other parameters to better read a QR code on an iPad. 
-			The array of sonar sensors contains 4 MAXBOTICS 7m I2C sonars. These allow the drone to detect objects on the sides the quadcopter intends to move in. We chose to use this for obstacle detection rather than a 2D LiDAR or webcams to save on weight, space, and computing power. Sonar sensors are very tried and true. Additionally, we opted for sonar rather than radar as radar has a harder time picking up smaller objects, like a drone. 
-			
+			Other threat identification systems, such as an infrared cameras, were discussed. However, potential interference from sunlight and other environmental factors led the team to choosing sonars instead.
+
 		\subsubsection*{Gesture Identification and Behavior}
-			Android app, PocketSphinx. 
+			Android app, PocketSphinx.
 
 	\subsection*{Communications Systems}
-		On the Jetsons, data is passed between software nodes via ROS. Data in between our multiple Jetsons is passed via ROS messages through direct ethernet connections. Commands to the flight computer are passed via serial connection with data encoded in MAVLINK messages.
-		
-		Networking between drones handled through WiFi 2.4 GHz. 
-
+		On each Jetson, data is passed between software nodes via ROS. Commands to the flight computer from that Jetson are passed via serial connection with data encoded in MAVLINK messages. Data between our multiple Jetsons (1 per drone) is passed via ROS messages through a 2.4 GHz WiFi network. The quadcopters connect to Texas Aerial Robotics’ router, which maps the quadcopters to IP addresses. The drones are interchangeable on the network-side too as the drones to IP addresses is not hard defined, resulting in a more modular and more robust system.
 
 	\subsection*{Man/Machine Interface}
 		The drone has a DX7 RC controller interface for system checks and emergency situations. In addition, the flight controller can be monitored via a telemetry radio using Mission Planner. Our autonomous scripts must be initiated by an SSH connection to our Nvidia Jetsons.
@@ -268,10 +271,10 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 \section*{RISK REDUCTION}
 	\subsection*{Vehicle Design}
 		\subsubsection*{EMI/RFI Solutions}
-		The Arducopter flight stack helps keep interference risk down through the EMI calibration on the Pixhawk. The calibration calculates the magnetic interference correction by formulating a function of the magnetic interference based on the power setting of the motors.
+		The Arducopter flight stack helps keep interference risk down through the EMI motor calibration on the Pixhawk. The calibration calculates the magnetic interference correction by formulating a function of the magnetic interference based on the power setting of the motors. Additionally, the drone was designed to reduce the electromagnetic interference in the first place through the use of carbon fiber over the high voltage electronics. Antennas and other radio connections are then done above the carbon fiber. 
 
 		\subsubsection*{Shock/Vibration Isolation}
-		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our first drone last year, flight logs from the Pixhawk confirmed that vibration on the built quadcopter was well within recommended amounts. The team believes there is no need to have landing shocks, as the sophisticated Arducopter flight stack has logic to recognize landing. Because of this, nominal landings will not interfere with the guidance or navigation of the drone.
+		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our drones, flight logs from the Pixhawk confirmed that vibration on the quadcopter was well within recommended amounts. The team believes there is no need to have landing shocks, as the sophisticated ArduCopter flight stack has logic to recognize landing. Because of this, nominal landings will not interfere with the guidance or navigation of the drone.
 
 
 	\subsection*{Safety}
@@ -301,10 +304,8 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 
 \section*{CONCLUSION}
 	Texas Aerial Robotics' solutions to the challenges provided by IARC Mission 7 are bountiful and diverse. The physical design process, from the ground up, optimizes flight time while enabling the physical contact required for success. Unique software utilizes input from an expansive collection of sensors to overcome the telemetry limitations imparted by the contest and track the dynamic objectives as they move about the area. Safe operation of these vast networks of interlocking components has been ensured through particular hardware selection and thorough vetting.
-	\nocite{redmon2016yolo9000}
-	\nocite{GitHubSPACEROBOTICS}
-	\nocite{HoughTransform}
-	\nocite{CannyEdgeDetection}
+	\nocite{ORBSLAM2}
+	\nocite{daoud2018slamm}
 	\bibliography{bibliography}
 	\bibliographystyle{plain}
 
