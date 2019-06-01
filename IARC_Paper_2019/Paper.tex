@@ -105,9 +105,11 @@ text centered, rounded corners, minimum height=2em]
 %%%%%%%%%%%%%%%%%%%%%% MAIN TEXT %%%%%%%%%%%%%%%%%%%%%%
 
 \section*{INTRODUCTION}
-	Previous aerial robotics missions have always allowed for GPS or other external active position estimation that allowed for constant locational awareness. Location data is important to any mission, as proper state awareness prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical state data as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized "natural" fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
+	Previous aerial robotics missions have always allowed for GPS or other external active position estimation  that allowed for constant locational awareness. Location data is important to any mission, as proper state awareness prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical state data as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized "natural" fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
 
 	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an "Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras" to create maps of the arena in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together to create the maps. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. TAR implements the "humanized" control aspect of the system through voice control using an Android app that connects to all of the air vehicles. The drones are also built with safety features for a plethora of other objects that may be on the field through its man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
+
+	One important aspect of TAR’s system is that it is very modular and interchangeable. Drone A is meant to be identical to Drone B and each drone can operate as any other. This creates a more robust drone swarm as the mission is still doable with as few or as many drones and no one drone is the hinge that the entire system needs to function. 
 
 	\begin{figure}[!htbp]
 		\begin{center}
@@ -152,9 +154,9 @@ text centered, rounded corners, minimum height=2em]
 
 	\begin{itemize}
 
-		\item 2017 (Mission 7) - Have a working bot, with computer vision software in nearly working state
+		\item 2017 (Mission 7) - Have a working bot, with computer vision software in nearly working state for IARC Mission 7, a Roomba herding challenge. 
 
-		\item 2018 (Mission 7) - Continue development of computer vision, develop a computational game strategy through creation of simulations of the motion of Roombas, and tweak the physique of the drone for better flight control and stability
+		\item 2018 (Mission 7) - Continue development of computer vision, develop a computational game strategy through creation of simulations of the motion of Roombas, and tweak the physique of the drone for better flight control and stability. 
 
 		\item 2019 (Mission 8) - Complete a working system, with localization and GPS-denied navigation of multiple drones. These drones should work together to solve the QR code and communicate with a person through an Android app that can transmit voice commands to the drones.
 
@@ -209,12 +211,12 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 
 			The 1D LiDAR module used is a Time of Flight (ToF) sensor named the Teraranger One. This one-dimensional sensor is directed downward and provides data to determine altitude. The PX4FLOW sensor measures velocity by comparing frame by frame images and measuring the distance traveled and direction. As previously stated this sensor is a redundancy for ORBSLAM. The Pixhawk 2 contains three 3-axis accelerometers, three 3-axis gyroscopes, and two 3-axis compasses. The data from these sensors is used by the Pixhawk onboard system for flight control and maneuvering of the quadcopter.
 
-%		\begin{figure}[!htbp]
-%			\begin{center}
-%				\includegraphics[width=0.75\textwidth]{system}
-%				\caption*{Overview of control system}
-%			\end{center}
-%		\end{figure}
+		\begin{figure}[!htbp]
+			\begin{center}
+				\includegraphics[width=0.75\textwidth]{system}
+				\caption*{Overview of control system}
+			\end{center}
+		\end{figure}
 
 		\subsubsection*{Flight Termination System}
 			We will be using ArduCopter's EmergencyStop to act as our killswitch. In the event of catastrophic failure, the safety operator can send the kill signal, and all power will immediately be cut from the drone's ESCs, and in turn, the motors.
@@ -240,19 +242,22 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 			Other threat identification systems, such as an infrared cameras, were discussed. However, potential interference from sunlight and other environmental factors led the team to choosing sonars instead.
 
 		\subsubsection*{Gesture Identification and Behavior}
-			Android app, PocketSphinx.
+		For the humanized controls, TAR opted not to go for gesture recognition as gesture recognition poses many challenges regarding identifying which drone is being commanded and the characteristics of the person, such as height and size. Additionally, the person needs to get the QR code information from the drones. For this TAR developed an Android app. Once we had the Android app, it became clear that voice recognition made more sense for commanding the air vehicles. The voice recognition is done on the Android device and the information is sent over the 2.4 GHz WiFi network to the drone that is being commanded. The details of this app is defined in the Man/Machine Interface subsection below. 
 
-	\subsection*{Communications Systems}
-		On each Jetson, data is passed between software nodes via ROS. Commands to the flight computer from that Jetson are passed via serial connection with data encoded in MAVLINK messages. Data between our multiple Jetsons (1 per drone) is passed via ROS messages through a 2.4 GHz WiFi network. The quadcopters connect to Texas Aerial Robotics’ router, which maps the quadcopters to IP addresses. The drones are interchangeable on the network-side too as the drones to IP addresses is not hard defined, resulting in a more modular and more robust system.
+		\subsection*{Communications Systems}
+		On each Jetson, data is passed between software nodes via ROS. Commands to the flight computer from that Jetson are passed via serial connection with data encoded in MAVLINK messages. Data between our multiple Jetsons (1 per drone) is passed via ROS messages through a 2.4 GHz WiFi network. The quadcopters connect to Texas Aerial Robotics’ router, which maps the quadcopters to IP addresses. The drones are interchangeable on the network-side too as the drones to IP addresses is not hard defined, resulting in a more modular and more robust system. 
 
-	\subsection*{Man/Machine Interface}
+		\subsection*{Man/Machine Interface}
 		The drone has a DX7 RC controller interface for system checks and emergency situations. In addition, the flight controller can be monitored via a telemetry radio using Mission Planner. Our autonomous scripts must be initiated by an SSH connection to our Nvidia Jetsons.
+
+		A crucial part of the Man/Machine Interface is the Android app that handles humanized communication to and from the air vehicles. Texas Aerial Robotics was able to spin this up quickly by using the same method of building off open-source projects. For this Android application, we built off ROSJava (running on the Android phone) to be able to open ROS Subscribers and Publishers on a remote device (the drones). The drones can publish to the Android phone once they have completed the QR code and the Android phone displays the data. Additionally, this Android app also handles the voice recognition aspect. Using the open-source project PocketSphinx from Carnegie Mellon University, TAR was able to implement on device voice recognition with a custom command dictionary. This was developed in a seperate app until ready. Then the two apps were combined to give one view for communicating to and from the drones over ROS from that Android device. TAR will use headphones with a clip-on microphone for listening to the person so the voice is clear. This app was developed with the ability to use it on Android Wear as well, so a user could just as easily use a smartwatch as the interface device for commanding the drones. 
+
 
 \section*{OPERATIONS}
 	\subsection*{Flight Preparations}
 		\subsubsection*{Checklist}
 			\begin{my_enumerate}
-				\item Check battery voltage (12.0-12.6V) and insert
+				\item Check battery voltage and insert
 				\item Make sure LiDAR, PX4FLOW, and cameras are not covered
 				\item Make sure that the props are on in the correct direction (leading edge in)
 				\item Make sure prop guards are secure
@@ -274,36 +279,43 @@ As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight control
 		The Arducopter flight stack helps keep interference risk down through the EMI motor calibration on the Pixhawk. The calibration calculates the magnetic interference correction by formulating a function of the magnetic interference based on the power setting of the motors. Additionally, the drone was designed to reduce the electromagnetic interference in the first place through the use of carbon fiber over the high voltage electronics. Antennas and other radio connections are then done above the carbon fiber. 
 
 		\subsubsection*{Shock/Vibration Isolation}
-		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our drones, flight logs from the Pixhawk confirmed that vibration on the quadcopter was well within recommended amounts. The team believes there is no need to have landing shocks, as the sophisticated ArduCopter flight stack has logic to recognize landing. Because of this, nominal landings will not interfere with the guidance or navigation of the drone.
+		The modern Pixhawk flight controller contains internal damping from the vibration of the drone's structure. The team decided that there is no need for extra damping. After completion of our drones, flight logs from the Pixhawk confirmed that vibration on the quadcopter was well within recommended amounts. The team believes there is no need to have landing legs or landing shocks. In flight, the drone stays stable and the sensors give good readings throughout the 20 minutes of flight time each drone can get. Because of this, TAR believes no inflight shocks or vibrations will interfere with the guidance or navigation of the drone.
 
 
 	\subsection*{Safety}
-		We took significant steps to ensure safe operation of the quadcopter. In order to keep the quadcopter from flying where we do not want, we have a Spektrum receiver module onboard so our designated pilot can manually control the vehicle. Additionally, we are able to check the status of the quadcopter through our telemetry to our ground station. The structure of the drone is also outfitted with prop guards to mitigate damage to people or property in the event of catastrophic failure. Our prop guards took multiple iterations. We wanted a design that would not interfere with the prop wash, but still be able to prevent damage to the quadcopter itself in the unfortunate event of a collision. The first iteration looked nice, but interfered with the prop wash too much and weighed too much, reducing the thrust. However, the next iteration cut weight and did not interfere with the prop wash.
+		We took significant steps to ensure safe operation of the quadcopter. In order to keep the quadcopter from flying where we do not want, we have a Spektrum receiver module onboard so our designated safety pilot can manually control the vehicle. Additionally, we are able to check the status of the quadcopter through our telemetry to our ground station. 
+
+An important part of IARC Mission 8 is the Human in the Loop. Safety is dialed up to 11 when a person is near the quadcopters. For this, each drone is outfitted with propeller guards to mitigate damage to people or property. We wanted a design that would interfere with the prop wash as little as possible, but still be able to prevent a human from accidentally sticking a finger in the path of the blades. These prop guards protect the drone from damage, but more importantly, the human from damage. These prop guards are also easily removable, should a situation arise where the quadcopter not need the guards or parts need to be quickly replaced. 
+
+Also an important safety feature is the sonar sensor array discussed earlier. This important feature keeps each drone from getting close to anything in flight in the first place. 
+
+The last important safety feature is the kill switch. The kill switch is one developed by the ArduCopter team. Should the kill command be sent, the Pixhawk shuts off the ESCs immediately. This has been a feature of ArduCopter for multiple software versions and has been tested all around the world. Because of its testing through being in ArduCopter, it is a far more tried and true method than one TAR could implement otherwise.
 
 
 	\subsection*{Modeling and Simulation}
+	For Mission 8, the computational team developed a simulation of Mission 8 with Gazebo and ROS software. With this simulation, TAR was able to perform software in the loop simulation and conduct mission planning without jeopardizing the physical drone.
 
-		To safely test our software throughout the development process, the team implemented a simulation using the Gazebo application. Using this tool, TAR was able to deploy full-scale software in the loop simulation without jeopardizing hardware with each design iteration.
+	The simulation was first constructed by building models according to the specifications provided by IARC. The models were built in Solidworks and edited with Blender software to texture the models and export as COLLADA files. With these COLLADA files, the properly textured models were loaded into the Gazebo simulation. The models constructed consisted of the arena, the bunkers, the bins, and the QR codes. Moreover, a controllable human was inserted into the simulation. To simulate the helper drone(s), TAR imported a standard quadcopter model from the ArduCopter standard library, similar to what was done for Mission 7. On the drone model, TAR added the same sensors used on the physical drone such as stereo cameras and sonar. With this model, all the software components of the drone such as the flight code and ORBSLAM2 could be tested.
+	
+	Going into more detail, the human model was made controllable with C++ scripts that utilized ROS software to input movement commands. Likewise, the drone was controlled through ArduCopter and ROS and demonstrated the desired autonomous behavior that was to be congruent with the actual physical drone’s behavior. Also, for added robustness, the QR codes within the arena could be randomly changed through a simple bash script; this allowed us to quickly test our QR code reading with different QR code combinations.
+	
+	Lastly, with hardware generously donated to us by Emergent Space Technologies, Virtual Reality (VR) was implemented into the human model for mission planning and demonstration. We added a camera to the human model’s head and exported the feed to the VR headset to simulate what it would actually be like to be inside the arena. With this perspective, the team had a unique insight into the conditions of the arena that would be otherwise unobtainable without physical access to the actual arena.
+	
+	With this simulation, Texas Aerial Robotics is able to test drone software and perform mission planning without posing any risk to the physical drone, saving it from any potential accidents and unintentional flight behavior inherent to prototype software. Additionally, by standardizing the simulation setup, tests could be conducted on multiple computers at any time, allowing for more teammates to do their respective testing on the drone concurrently. 
 
-		To employ the Gazebo framework, the team imported a standard quadcopter model from the ArduCopter standard library and Roomba models from Gazebo model library, which were then updated with the color-coded plates and obstacle tubes prescribed for the competition. Additionally, the ground plane within the reproduction was changed to match the texture expected at the competition.
 
-		Gazebo was chosen because of its compatibility with ROS and Ardupilot, the internal communication protocol employed onboard our drone. With this congruence, the exact same software run onboard the drone could be run within the simulation, complete with sensor feedback detected within the simulated instance. C++ scripts could then be utilized to enforce the correct Roomba behaviors, scripting the robots using the same messaging environment as the quadcopter itself (ROS).
+\subsection*{Physical Testing}
+Simulation, however, can only prove so much. Eventually, refined software was tested on a model testbed or on the drone itself. Much of the obstacle avoidance and general software integration was developed on this testbed, where performance could be verified with the same sensors and computational hardware as the aircraft before full-scale deployment. Even strategy nodes could be tested on this platform, with waypoint predictions vetted before being deployed to the aircraft.
 
-		Overall, modeling our software behavior within a Gazebo simulation greatly expedited the development process. By standardizing the simulation setup, tests could be conducted on multiple computers at any time, instead of requiring the sluggish process of updating, calibrating, and flying the physical drone. Additionally, simulation protected the hardware from the accidents and unintentional flight behavior inherent to prototype software.
+Flight tests, expectedly, require a specific setting. Generally, Texas Aerial Robotics tested on the roof of the Aerospace building on campus at The University of Texas at Austin. This controlled environment bore witness to hardware implementation throughout our design process, from original flight readiness to early autonomy.
 
+Texas Aerial Robotics did learn last year that testing outdoors is no substitute for testing in a gym. However, obtaining a gym that will allow TAR to fly has been extremely difficult. TAR is still working on being able to test inside gyms to more closely replicate the compass and other sensor interference that comes from being inside a closed metal structure. Ideally, TAR will run full scale tests in gyms prior to competition, but realistically much of our testing will be done outdoors again this year. 
 
-	\subsection*{Physical Testing}
-		Simulation, however, can only prove so much. Eventually, refined software was tested on a model testbed or on the drone itself. Much of the computer vision and general software integration was developed on this testbed, where performance could be verified with the same sensors and computational hardware as the aircraft before full-scale deployment. Even strategy nodes could be tested on this platform, with waypoint predictions vetted before being deployed to the aircraft.
-
-		Flight tests, expectedly, require a specific setting. Generally, Texas Aerial Robotics tested on the roof of the Aerospace building on campus at The University of Texas at Austin. This controlled environment bore witness to hardware implementation throughout our design process, from original flight readiness to early autonomy.
-
-		However, summer development saw additional test flights conducted in a vacant parking garage, but both locations suffered from magnetic inconsistencies which interfered with compass calibrations. Because of this, later tests, including the qualifying run submitted, were conducted in a parking lot to the north of the university.
-
-		Regardless of the setting, each flight test was conducted with constant apparatus: a four meter by four meter test mat printed with the pattern expected at competition to allow optical flow for navigation. Across this mat drives a test Roomba, which accurately recreates both the physical appearance and behaviors of those robots that will be tracked at the venue, complete with top plate and switch. Finally, there is the drone itself, which starts on a corner of the mat, takes off autonomously, and then executes the maneuver to be tested.
+In the year following, however, the University is setting up a robotics facility which will allow TAR to test indoors. Until then, TAR takes testing very seriously, but mostly in simulation and then outdoors. 
 
 
 \section*{CONCLUSION}
-	Texas Aerial Robotics' solutions to the challenges provided by IARC Mission 7 are bountiful and diverse. The physical design process, from the ground up, optimizes flight time while enabling the physical contact required for success. Unique software utilizes input from an expansive collection of sensors to overcome the telemetry limitations imparted by the contest and track the dynamic objectives as they move about the area. Safe operation of these vast networks of interlocking components has been ensured through particular hardware selection and thorough vetting.
+	From the framework conceived from Mission 7 and Texas Aerial Robotics’ hard work from Fall 2018 to the present, significant strides have been made in the hardware, computer vision, controls, and computational areas to provide robust solutions for the challenges presented by Mission 8. Through all of Texas Aerial Robotics’ progress, the autonomous drones built for this competition have been optimally designed to house all the instruments necessary for mission success while maintaining the stability, safety, and endurance requirements of Mission 8. Moving forward, the drone will undergo more physical and simulation testing, and the software and hardware will be continuously improved upon to ensure that the probability of success for Mission 8 is as high as possible. 
 	\nocite{ORBSLAM2}
 	\nocite{daoud2018slamm}
 	\bibliography{bibliography}
