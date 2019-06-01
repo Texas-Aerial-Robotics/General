@@ -105,9 +105,9 @@ text centered, rounded corners, minimum height=2em]
 %%%%%%%%%%%%%%%%%%%%%% MAIN TEXT %%%%%%%%%%%%%%%%%%%%%%
 
 \section*{INTRODUCTION}
-	Previous aerial robotics missions have always allowed for GPS or other external active position estimation  that allowed for constant locational awareness. Location data is important to any mission, as proper state awareness prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical state data as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized "natural" fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
+	Previous aerial robotics missions have always allowed for GPS or other external active position estimation  that allowed for constant locational awareness. Location data is important to any mission, as proper state awareness prevents various failures, including complete loss of control for the drone. Thus, Mission 8 requires novel solutions to deriving this critical state data as GPS is forbidden. Additionally, the aircrafts must be capable of taking commands in a humanized ``natural'' fashion and avoid other aircrafts without being informed of those other aircrafts' locations.
 
-	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an "Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras" to create maps of the arena in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together to create the maps. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. TAR implements the "humanized" control aspect of the system through voice control using an Android app that connects to all of the air vehicles. The drones are also built with safety features for a plethora of other objects that may be on the field through its man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
+	Texas Aerial Robotics addresses these challenges by utilizing computer vision. TAR uses ORBSLAM2, an ``Open-Source SLAM System for Monocular, Stereo and RGB-D Cameras'' to create maps of the arena in real time. The drone creates pointclouds of the objects in view using the stereo camera and combines sections together to create the maps. This means that should a section of the map start showing drift, the ORBSLAM2/ORBSLAMM System will toss out just the section while maintaining as much of the map as possible. TAR hopes to combine the processing between the multiple drones to have them work together on one map. These drones also solve for the QR code that is the combination the human needs for collecting the objects. TAR implements the ``humanized'' control aspect of the system through voice control using an Android app that connects to all of the air vehicles. The drones are also built with safety features for a plethora of other objects that may be on the field through its man-safe propellers for any humans and sonar sensors for avoiding other air vehicles at all times.
 
 	One important aspect of TAR’s system is that it is very modular and interchangeable. Drone A is meant to be identical to Drone B and each drone can operate as any other. This creates a more robust drone swarm as the mission is still doable with as few or as many drones and no one drone is the hinge that the entire system needs to function. 
 
@@ -182,13 +182,15 @@ Assuming an average throttle of 65\% for maneuvering, we see a 4 A current draw 
 
 To save on weight and space, we chose a 25C discharge rate battery, as this is still more than enough to match the maximum continuous current draw of 100 [A] and maximum practical current draw of 29.6 [A] required by the motors. The Pixhawk flight controller and Jetson TX2 compute unit will be powered of the same 4000 [mAh] battery. Together, they contribute a maximum practical current draw of 2.2 [A]. The 4000 [mAh] battery with a 25C discharge rate gives us a maximum continuous current draw of 100 [A], well exceeding the limit of the motors and computing units combined.
 
-The eCalc online tool was used to validate our calculations, and as seen by the generated graph below, there should be no issue reaching above 8 minute flight times at speeds below 15 [mph].
+The eCalc online tool was used to validate our calculations, and as seen by the generated graph, there should be no issue reaching 8+ minute flight times at speeds below 15 [mph].
 
-%		\begin{figure}[!htbp]
-%			\begin{center}
-%				\includegraphics[width=0.75\textwidth]{powerGraph}
-%			\end{center}
-%		\end{figure}
+		\begin{figure}[!htbp]
+			\begin{center}
+				\includegraphics[width=0.6\textwidth]{powerGraph}
+			\end{center}
+		\end{figure}
+
+\pagebreak
 
 As for the 2000 [mAh] 3S battery, this battery powers our Pixhawk flight controller and our three Jetson TX2 compute units. This was done partly to dedicate the entirety of the main battery to propulsion to maximize flight time. The other reason is that the speed controllers we chose (T-Motor Air 40A) have no BEC, so a separate battery for the flight controller (and in turn the receiver) was the simplest solution. 2000 [mAh] was chosen because of the slim form factor we were able to find it in, and because it will provide more than adequate power while not adding any significant amount to the quad weight.
 
